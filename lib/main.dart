@@ -4,28 +4,20 @@ import 'package:society_management_system/global_Declaration/colors.dart';
 import 'package:society_management_system/login_Screen.dart';
 
 void main() {
-  runApp(const MaterialApp(home: main_Page()));
+  //TT
+  runApp(const MyApp());
 }
 
-// ignore: camel_case_types
-class main_Page extends StatefulWidget {
-  const main_Page({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  @override
-  State<main_Page> createState() => _main_PageState();
-}
-
-// ignore: camel_case_types
-class _main_PageState extends State<main_Page> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-            backgroundColor: appbarColor,
-          ),
-          textTheme: GoogleFonts.robotoTextTheme(),
           primaryColor: primaryColor,
+          textTheme: GoogleFonts.robotoTextTheme(),
+          appBarTheme: const AppBarTheme(backgroundColor: appbarColor),
           scrollbarTheme: ScrollbarThemeData(
             thumbColor: WidgetStateProperty.all(Colors.green),
           )),
