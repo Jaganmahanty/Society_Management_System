@@ -163,7 +163,6 @@ class _Login_PageState extends State<Login_Page> {
                 //   ),
                 // ),
 
-                // Forgot Password TextButton
                 Padding(
                   padding: EdgeInsets.only(right: 10, top: 15),
                   child: Align(
@@ -192,13 +191,11 @@ class _Login_PageState extends State<Login_Page> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Register Message
                     Text(
                       strRegisterMsg,
                       style: TextStyle(fontSize: 17, color: Colors.black87),
                     ),
                     SizedBox(width: 10),
-                    // Register TextButton
                     InkWell(
                       onTap: () {
                         Navigator.push(
