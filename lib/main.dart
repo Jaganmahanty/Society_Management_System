@@ -15,13 +15,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          primaryColor: primaryColor,
-          textTheme: GoogleFonts.robotoTextTheme(),
-          appBarTheme: const AppBarTheme(backgroundColor: appbarColor),
-          scrollbarTheme: ScrollbarThemeData(
-            thumbColor: WidgetStateProperty.all(Colors.green),
-          )),
-      home: const login_Page(),
+        primaryColor: primaryColor,
+        textTheme: GoogleFonts.robotoTextTheme(),
+        appBarTheme: const AppBarTheme(backgroundColor: appbarColor),
+        // scrollbarTheme: ScrollbarThemeData(
+        // thumbColor: WidgetStateProperty.all(Colors.green),
+        // )
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const Login_Page(),
     );
   }
 }

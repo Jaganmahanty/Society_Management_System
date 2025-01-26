@@ -134,7 +134,7 @@ class _registration_PageState extends State<registration_Page> {
                           Icons.phone,
                           color: primaryColor,
                         ),
-                        labelText: mobileNumberInput,
+                        labelText: strMobileNoInput,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(7))),
                       ),
@@ -168,7 +168,7 @@ class _registration_PageState extends State<registration_Page> {
                           Icons.password,
                           color: primaryColor,
                         ),
-                        labelText: passwordInput,
+                        labelText: strPwdInput,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(7))),
                       ),
@@ -184,7 +184,7 @@ class _registration_PageState extends State<registration_Page> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const login_Page()),
+                                builder: (context) => const Login_Page()),
                           );
                         },
                         style: ElevatedButton.styleFrom(

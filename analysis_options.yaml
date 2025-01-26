@@ -11,6 +11,9 @@ analyzer:
   errors:
     depend_on_referenced_packages: ignore
     camel_case_types: ignore
+    file_names: ignore
+    prefer_const_constructors: ignore
+    avoid_print: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:

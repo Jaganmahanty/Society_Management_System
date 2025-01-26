@@ -1,9 +1,9 @@
 //--login_Screen
 
-const String loginMsg = "Login to your acoount !";
-const String mobileNumberInput = "Enter Mobile No.";
-const String passwordInput = "Enter 4 Digit PIN";
-const String registerMsg = "Don't have an Account";
+const String strLoginMsg = "Login to your acoount !";
+const String strMobileNoInput = "Enter Mobile No.";
+const String strPwdInput = "Enter 4 Digit PIN";
+const String strRegisterMsg = "Don't have an Account ?";
 
 //--registration_Screen
 
