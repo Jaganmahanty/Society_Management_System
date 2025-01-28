@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:society_management_system/dashboard_Member.dart';
 import 'package:society_management_system/global_Declaration/colors.dart';
 import 'package:society_management_system/login_Screen.dart';
 
@@ -17,13 +18,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: primaryColor,
         textTheme: GoogleFonts.robotoTextTheme(),
-        appBarTheme: const AppBarTheme(backgroundColor: appbarColor),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: appbarColor,
+          iconTheme: IconThemeData(
+            color: Colors.white, // Set the drawer icon color to white
+          ),
+        ),
         // scrollbarTheme: ScrollbarThemeData(
         // thumbColor: WidgetStateProperty.all(Colors.green),
         // )
       ),
       debugShowCheckedModeBanner: false,
-      home: const Login_Page(),
+      // home: const Login_Page(),
+      home: const Dashboard_Member(),
     );
   }
 }

@@ -1,3 +1,7 @@
+
+const String strAppbar = "Suman Sadhana";
+const String strUsername = "Jay Shree Ram";
+
 //--login_Screen
 
 const String strLoginMsg = "Login to your acoount !";

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/common/constant.dart';
+import 'package:society_management_system/global_Declaration/colors.dart';
 
 class EqButton extends StatefulWidget {
   EqButton({

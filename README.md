@@ -20,3 +20,6 @@ samples, guidance on mobile development, and a full API reference.
 TT //
 1. Changed structure of login page ..
 2. Added common widget folder ..
+
+// 28-02
+3. Added Member dashboard ui ..
