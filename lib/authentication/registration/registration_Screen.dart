@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
-import 'package:society_management_system/global_Declaration/strings.dart';
-import 'package:society_management_system/login_Screen.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/common/global_section/strings.dart';
+import 'package:society_management_system/authentication/login/login_Screen.dart';
 
-// ignore: camel_case_types
 class registration_Page extends StatefulWidget {
   const registration_Page({super.key});
 
@@ -13,7 +12,6 @@ class registration_Page extends StatefulWidget {
 
 final TextEditingController mothernameController = TextEditingController();
 
-// ignore: camel_case_types
 class _registration_PageState extends State<registration_Page> {
   @override
   Widget build(BuildContext context) {
@@ -75,7 +73,7 @@ class _registration_PageState extends State<registration_Page> {
                           Icons.person_4,
                           color: primaryColor,
                         ),
-                        labelText: firstNameInput,
+                        labelText: strFirstNameInput,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(7))),
                       ),
@@ -100,7 +98,7 @@ class _registration_PageState extends State<registration_Page> {
                           Icons.person_4,
                           color: primaryColor,
                         ),
-                        labelText: lastNameInput,
+                        labelText: strtLastNameInput,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(7))),
                       ),

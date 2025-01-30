@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/quickAccessMenu.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
-import 'package:society_management_system/global_Declaration/strings.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/common/global_section/strings.dart';
+import 'package:society_management_system/common/eqWidget/quickAccessMenu.dart';
+import 'package:society_management_system/profile.dart';
 
 class Dashboard_Member extends StatefulWidget {
   const Dashboard_Member({super.key});
@@ -187,80 +188,8 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
     );
   }
 
-  QuickAccessWidget buildCommunication() {
-    return QuickAccessWidget(
-      title: "Communication :",
-      items: [
-        {
-          'icon': Icons.timer_sharp,
-          'title': "Meetings",
-          'onPressed': () {
-            print("Meetings Icon Pressed");
-          },
-        },
-        {
-          'icon': Icons.announcement,
-          'title': "Announcement",
-          'onPressed': () {
-            print("Announcement Icon Pressed");
-          },
-        },
-        {
-          'icon': Icons.comment,
-          'title': "Comment",
-          'onPressed': () {
-            print("Comment Icon Pressed");
-          },
-        },
-        {
-          'icon': Icons.comment_bank_outlined,
-          'title': "Suggestions",
-          'onPressed': () {
-            print("Suggestions Icon Pressed");
-          },
-        },
-      ],
-    );
-  }
-
-  QuickAccessWidget buildDirectories() {
-    return QuickAccessWidget(
-      title: "Directories :",
-      items: [
-        {
-          'icon': Icons.person,
-          'title': "Members",
-          'onPressed': () {
-            print("Person Icon Pressed");
-          },
-        },
-        {
-          'icon': Icons.car_repair_outlined,
-          'title': "Vehicle",
-          'onPressed': () {
-            print("Vehicle Icon Pressed");
-          },
-        },
-        {
-          'icon': Icons.call,
-          'title': "Contact\nDirectory",
-          'onPressed': () {
-            print("Call Icon Pressed");
-          },
-        },
-        {
-          'icon': Icons.bar_chart,
-          'title': "Statictics",
-          'onPressed': () {
-            print("Statictics Icon Pressed");
-          },
-        },
-      ],
-    );
-  }
-
-  QuickAccessWidget buildQuickAccess() {
-    return QuickAccessWidget(
+  QuickAccessMenu buildQuickAccess() {
+    return QuickAccessMenu(
       title: "Quick Access :",
       items: [
         {
@@ -295,8 +224,116 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
     );
   }
 
-  QuickAccessWidget buildSocietyStaff() {
-    return QuickAccessWidget(
+  QuickAccessMenu buildDirectories() {
+    return QuickAccessMenu(
+      title: "Directories :",
+      items: [
+        {
+          'icon': Icons.person,
+          'title': "Members",
+          'onPressed': () {
+            print("Person Icon Pressed");
+          },
+        },
+        {
+          'icon': Icons.car_repair_outlined,
+          'title': "Vehicle",
+          'onPressed': () {
+            print("Vehicle Icon Pressed");
+          },
+        },
+        {
+          'icon': Icons.call,
+          'title': "Contact\nDirectory",
+          'onPressed': () {
+            print("Call Icon Pressed");
+          },
+        },
+        {
+          'icon': Icons.bar_chart,
+          'title': "Statictics",
+          'onPressed': () {
+            print("Statictics Icon Pressed");
+          },
+        },
+      ],
+    );
+  }
+
+  QuickAccessMenu buildCommunication() {
+    return QuickAccessMenu(
+      title: "Communication :",
+      items: [
+        {
+          'icon': Icons.timer_sharp,
+          'title': "Meetings",
+          'onPressed': () {
+            print("Meetings Icon Pressed");
+          },
+        },
+        {
+          'icon': Icons.announcement,
+          'title': "Announcement",
+          'onPressed': () {
+            print("Announcement Icon Pressed");
+          },
+        },
+        {
+          'icon': Icons.comment,
+          'title': "Complaints",
+          'onPressed': () {
+            print("Complaints Icon Pressed");
+          },
+        },
+        {
+          'icon': Icons.comment_bank_outlined,
+          'title': "Suggestions",
+          'onPressed': () {
+            print("Suggestions Icon Pressed");
+          },
+        },
+      ],
+    );
+  }
+
+  QuickAccessMenu buildSocialInfra() {
+    return QuickAccessMenu(
+      title: "Social Infrastructure :",
+      items: [
+        {
+          'icon': Icons.business_outlined,
+          'title': "Book\nResources",
+          'onPressed': () {
+            print("Book resources Icon Pressed");
+          },
+        },
+        {
+          'icon': Icons.info,
+          'title': "Sociery\nInformation",
+          'onPressed': () {
+            print("Social info Icon Pressed");
+          },
+        },
+        {
+          'icon': Icons.check_circle_outline,
+          'title': "Rules",
+          'onPressed': () {
+            print("Rules Icon Pressed");
+          },
+        },
+        {
+          'icon': Icons.backup_table_outlined,
+          'title': "Bank",
+          'onPressed': () {
+            print("ank Icon Pressed");
+          },
+        },
+      ],
+    );
+  }
+
+  QuickAccessMenu buildSocietyStaff() {
+    return QuickAccessMenu(
       title: "Society Support Staff :",
       items: [
         {
@@ -308,7 +345,7 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
         },
         {
           'icon': Icons.person_add,
-          'title': "Daily\Helper",
+          'title': "Daily\nhHelper",
           'onPressed': () {
             print("helper Icon Pressed");
           },
@@ -317,8 +354,8 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
     );
   }
 
-  QuickAccessWidget buildOthers() {
-    return QuickAccessWidget(
+  QuickAccessMenu buildOthers() {
+    return QuickAccessMenu(
       title: "Other :",
       items: [
         {
@@ -340,42 +377,6 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
           'title': "on Going\nTask",
           'onPressed': () {
             print("Task Icon Pressed");
-          },
-        },
-      ],
-    );
-  }
-
-  QuickAccessWidget buildSocialInfra() {
-    return QuickAccessWidget(
-      title: "Social Infrastructure :",
-      items: [
-        {
-          'icon': Icons.business_outlined,
-          'title': "Book\nResources",
-          'onPressed': () {
-            print("Book resources Icon Pressed");
-          },
-        },
-        {
-          'icon': Icons.info,
-          'title': "Social\ninformation",
-          'onPressed': () {
-            print("Social info Icon Pressed");
-          },
-        },
-        {
-          'icon': Icons.check_circle_outline,
-          'title': "Rules",
-          'onPressed': () {
-            print("Rules Icon Pressed");
-          },
-        },
-        {
-          'icon': Icons.backup_table_outlined,
-          'title': "Bank",
-          'onPressed': () {
-            print("ank Icon Pressed");
           },
         },
       ],
@@ -406,44 +407,49 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
               ),
             ),
           ),
-          ListView(
-            children: [
-              ListTile(
-                leading: Icon(Icons.home, color: primaryColor),
-                title: Text('Prfile'),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: Icon(Icons.account_box, color: primaryColor),
-                title: Text('Feedback'),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: Icon(Icons.settings, color: primaryColor),
-                title: Text('Terms & Condition'),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: Icon(Icons.notifications, color: primaryColor),
-                title: Text('Privacy Policy'),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: Icon(Icons.help, color: primaryColor),
-                title: Text('Contact Us'),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: Icon(Icons.help, color: primaryColor),
-                title: Text('About Us'),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: Icon(Icons.logout),
-                title: Text('Exit to Home Screen'),
-                onTap: () {},
-              ),
-            ],
+          Expanded(
+            child: ListView(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.home, color: primaryColor),
+                  title: Text('Prfile'),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Profile()));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.account_box, color: primaryColor),
+                  title: Text('Feedback'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings, color: primaryColor),
+                  title: Text('Terms & Condition'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.notifications, color: primaryColor),
+                  title: Text('Privacy Policy'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.help, color: primaryColor),
+                  title: Text('Contact Us'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.help, color: primaryColor),
+                  title: Text('About Us'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Exit to Home Screen'),
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
         ],
       ),

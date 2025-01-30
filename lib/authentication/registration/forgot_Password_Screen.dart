@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
 
-// ignore: camel_case_types
-class forgot_Password extends StatefulWidget {
+class Forgot_Password extends StatefulWidget {
   final String number;
-  const forgot_Password({super.key, required this.number});
+  const Forgot_Password({super.key, required this.number});
 
   @override
-  State<forgot_Password> createState() => _forgot_PasswordState();
+  State<Forgot_Password> createState() => _Forgot_PasswordState();
 }
 
-// ignore: camel_case_types
-class _forgot_PasswordState extends State<forgot_Password> {
+class _Forgot_PasswordState extends State<Forgot_Password> {
   late final TextEditingController _mobileNoController;
 
   @override
   void initState() {
     super.initState();
-    // Initialize the TextEditingController with the passed number
     _mobileNoController = TextEditingController(text: widget.number);
   }
 
   @override
   void dispose() {
-    // Dispose the controller to free resources
     _mobileNoController.dispose();
     super.dispose();
   }
@@ -51,19 +47,14 @@ class _forgot_PasswordState extends State<forgot_Password> {
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 200,
-                    ),
+                    const SizedBox(height: 200),
                     const Padding(
                       padding: EdgeInsets.only(left: 10.0),
                       child: Align(
-                        alignment: Alignment
-                            .centerLeft, // This ensures the text aligns to the left
+                        alignment: Alignment.centerLeft,
                         child: Text(
                           "We will sent you an OTP on following Mobile Number - ",
-                          style: TextStyle(
-                            fontSize: 17,
-                          ),
+                          style: TextStyle(fontSize: 17),
                         ),
                       ),
                     ),
@@ -98,12 +89,10 @@ class _forgot_PasswordState extends State<forgot_Password> {
                             borderRadius: BorderRadius.all(Radius.circular(7))),
                       ),
                     ),
-                    const SizedBox(
-                      height: 50,
-                    ),
+                    const SizedBox(height: 50),
                     SizedBox(
-                      width: double.infinity,
                       height: 45,
+                      width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
                           // Navigator.push(
@@ -114,17 +103,13 @@ class _forgot_PasswordState extends State<forgot_Password> {
                           // );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurpleAccent,
+                          elevation: 5,
+                          shadowColor: Colors.black,
                           foregroundColor: Colors.white,
-                          // Text color
-                          shadowColor: Colors.black, // Shadow color
-                          elevation: 5, // Elevation of the button
+                          backgroundColor: Colors.deepPurpleAccent,
                           shape: RoundedRectangleBorder(
-                            // Shape of the button
-                            borderRadius:
-                                BorderRadius.circular(7), // Rounded corners
+                            borderRadius: BorderRadius.circular(7),
                           ),
-                          // Padding inside button
                         ),
                         child: const Text(
                           "Send OTP",

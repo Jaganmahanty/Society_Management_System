@@ -23,3 +23,6 @@ TT //
 
 // 28-02
 3. Added Member dashboard ui ..
+
+// 30-02
+3. Added simple form pages like profile, add contacts, add vehicles & formatting ..

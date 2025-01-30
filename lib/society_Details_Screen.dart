@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
-import 'package:society_management_system/global_Declaration/strings.dart';
 import 'package:society_management_system/set_Up_Wings_Screen.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/common/global_section/strings.dart';
 
-// ignore: camel_case_types
 class society_Details extends StatefulWidget {
   const society_Details({super.key});
 
@@ -11,7 +10,6 @@ class society_Details extends StatefulWidget {
   State<society_Details> createState() => _society_DetailsState();
 }
 
-// ignore: camel_case_types
 class _society_DetailsState extends State<society_Details> {
   final TextEditingController _societyNameController = TextEditingController();
   final TextEditingController _noOfWingController = TextEditingController();

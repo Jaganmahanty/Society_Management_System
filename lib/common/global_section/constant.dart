@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 // Color eqPrimaryColor = Colors.pink.shade200;
-Color eqPrimaryColor = Colors.indigo.shade400;
-Color eqSecondaryColor = Colors.indigo.shade200;
+// Color eqPrimaryColor = Colors.indigo.shade400;
+// Color eqSecondaryColor = Colors.indigo.shade200;
 
 // const kPrimaryGradientColor = LinearGradient(
 //     begin: Alignment.topLeft,

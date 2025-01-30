@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
-import 'package:society_management_system/global_Declaration/strings.dart';
 import 'package:society_management_system/dashboard_Society_Admin.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/common/global_section/strings.dart';
 
-// ignore: camel_case_types
 class display_Flat_Screen extends StatefulWidget {
   final String wingName;
   final int floors;
@@ -22,7 +21,6 @@ class display_Flat_Screen extends StatefulWidget {
   State<display_Flat_Screen> createState() => _display_Flat_ScreenState();
 }
 
-// ignore: camel_case_types
 class _display_Flat_ScreenState extends State<display_Flat_Screen> {
   late List<bool> _isFlatDead;
   final ScrollController _horizontalScrollController = ScrollController();

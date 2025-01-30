@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/society_Details_Screen.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
-import 'package:society_management_system/global_Declaration/strings.dart';
 import 'package:society_management_system/join_Building_Screen.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/common/global_section/strings.dart';
+import 'package:society_management_system/society_Details_Screen.dart';
 
-// ignore: camel_case_types
 class create_Or_Join_Society extends StatefulWidget {
   const create_Or_Join_Society({super.key});
 
@@ -12,7 +11,6 @@ class create_Or_Join_Society extends StatefulWidget {
   State<create_Or_Join_Society> createState() => _create_Or_Join_SocietyState();
 }
 
-// ignore: camel_case_types
 class _create_Or_Join_SocietyState extends State<create_Or_Join_Society> {
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// ignore: camel_case_types
 class join_Building extends StatefulWidget {
   const join_Building({super.key});
 
@@ -8,7 +7,6 @@ class join_Building extends StatefulWidget {
   State<join_Building> createState() => _join_BuildingState();
 }
 
-// ignore: camel_case_types
 class _join_BuildingState extends State<join_Building> {
   @override
   Widget build(BuildContext context) {

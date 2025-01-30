@@ -1,7 +1,5 @@
-// ignore_for_file: must_be_immutable, camel_case_types
-
 import 'package:flutter/material.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
 
 class eqGridCard extends StatefulWidget {
   const eqGridCard(
