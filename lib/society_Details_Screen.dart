@@ -77,7 +77,7 @@ class _Society_DetailsState extends State<Society_Details> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               buildSocNameField(),
-              buildSocietyAddField(),
+              buildSocieryAddField(),
               buildNoOfWingsField(),
             ],
           ),
@@ -99,30 +99,22 @@ class _Society_DetailsState extends State<Society_Details> {
     );
   }
 
-  Padding buildSocietyAddField() {
-    return Padding(
-      padding: EdgeInsets.all(8),
-      child: TextFormField(
-        controller: _societyAddrController,
-        maxLines: 3,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.place, color: primaryColor),
-          hintText: strSocietyAddInput,
-          labelText: "Society Address",
-          border: OutlineInputBorder(),
-        ),
-        onChanged: (value) {
-          _societyAddrController.value = TextEditingValue(
-              text: value.toUpperCase(),
-              selection: _societyAddrController.selection);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "Society Address can't be empty";
-          }
-          return null;
-        },
+  TextFormField buildSocieryAddField() {
+    return TextFormField(
+      controller: _societyAddrController,
+      maxLines: 3,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.place, color: primaryColor),
+        hintText: strSocietyAddInput,
+        labelText: "Society Address",
+        border: OutlineInputBorder(),
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Society Address can't be empty";
+        }
+        return null;
+      },
     );
   }
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:society_management_system/authentication/registration/forgot_Password_Screen.dart';
+import 'package:society_management_system/authentication/registration/registration_Screen.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
+import 'package:society_management_system/dashboard_Society_Admin.dart';
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
 import 'package:society_management_system/common/eqWidget/eqTextField.dart';
-import 'package:society_management_system/dashboard_Society_Admin.dart';
-import 'package:society_management_system/authentication/registration/registration_Screen.dart';
-import 'package:society_management_system/authentication/registration/forgot_Password_Screen.dart';
 
 class Login_Page extends StatefulWidget {
   const Login_Page({super.key});
