@@ -156,7 +156,7 @@ class _Add_MemberState extends State<Add_Member> {
       controller: _lastNameController,
       keyboardType: TextInputType.number,
       prefixIcon: Icon(Icons.person_2, color: primaryColor),
-      hintText: strtLastNameInput,
+      hintText: strLastNameInput,
       labelText: "Last Name",
       validator: (value) {
         if (value == null || value.isEmpty) {

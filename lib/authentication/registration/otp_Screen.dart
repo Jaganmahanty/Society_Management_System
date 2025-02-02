@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/authentication/registration/otp_Screen.dart';
+import 'package:society_management_system/authentication/registration/reset_Password_Screen.dart';
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
 import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
-import 'package:society_management_system/common/global_section/strings.dart';
 
-class Forgot_Password extends StatefulWidget {
-  const Forgot_Password({super.key});
+class OTP_Password extends StatefulWidget {
+  final String number;
+  const OTP_Password({super.key, required this.number});
 
   @override
-  State<Forgot_Password> createState() => _Forgot_PasswordState();
+  State<OTP_Password> createState() => _OTP_PasswordState();
 }
 
-class _Forgot_PasswordState extends State<Forgot_Password> {
+class _OTP_PasswordState extends State<OTP_Password> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _mobileNoController = TextEditingController();
+  final TextEditingController _OTPController = TextEditingController();
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
 
   @override
   void dispose() {
-    _mobileNoController.dispose();
+    _OTPController.dispose();
     super.dispose();
   }
 
@@ -53,30 +53,29 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(8),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "We will sent you an OTP on following Mobile Number to reset password : ",
+                    "We have sent you an OTP on following Mobile Number : ${widget.number} ",
                     style: TextStyle(fontSize: 17),
                   ),
                 ),
               ),
               SizedBox(height: 10),
-              buildMobileNoField(),
+              buildOTPField(),
               SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.all(6),
                 child: EqButton(
-                    text: "Send OTP",
+                    text: "Submit",
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => OTP_Password(
-                                  number: _mobileNoController.text)),
+                              builder: (context) => Reset_Password()),
                         );
                       }
                     }),
@@ -86,14 +85,14 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
     );
   }
 
-  EqTextField buildMobileNoField() {
+  EqTextField buildOTPField() {
     return EqTextField(
-      length: 10,
-      controller: _mobileNoController,
+      length: 6,
+      controller: _OTPController,
       keyboardType: TextInputType.phone,
       prefixIcon: Icon(Icons.phone, color: primaryColor),
-      hintText: strMobileNoInput,
-      labelText: "Mobile No",
+      hintText: "OTP",
+      labelText: "Enter OTP",
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Mobile No can't be empty ";

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/authentication/registration/otp_Screen.dart';
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
 import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
+import 'package:society_management_system/dashboard_Society_Admin.dart';
 
-class Forgot_Password extends StatefulWidget {
-  const Forgot_Password({super.key});
+class Reset_Password extends StatefulWidget {
+  const Reset_Password({super.key});
 
   @override
-  State<Forgot_Password> createState() => _Forgot_PasswordState();
+  State<Reset_Password> createState() => _Reset_PasswordState();
 }
 
-class _Forgot_PasswordState extends State<Forgot_Password> {
+class _Reset_PasswordState extends State<Reset_Password> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _mobileNoController = TextEditingController();
+  final TextEditingController _pwdController = TextEditingController();
+  final TextEditingController _confirmPwdController = TextEditingController();
 
   @override
   void initState() {
@@ -23,7 +24,6 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
 
   @override
   void dispose() {
-    _mobileNoController.dispose();
     super.dispose();
   }
 
@@ -40,12 +40,12 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
       ),
       backgroundColor: Colors.white,
       body: Center(
-        child: otpForm(),
+        child: resetForm(),
       ),
     );
   }
 
-  otpForm() {
+  resetForm() {
     return Center(
       child: Form(
           key: _formKey,
@@ -53,30 +53,20 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "We will sent you an OTP on following Mobile Number to reset password : ",
-                    style: TextStyle(fontSize: 17),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              buildMobileNoField(),
+              buildPwdField(),
+              buildConfirmPwdField(),
               SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.all(6),
                 child: EqButton(
-                    text: "Send OTP",
+                    text: "Reset",
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => OTP_Password(
-                                  number: _mobileNoController.text)),
+                              builder: (context) =>
+                                  dashboard_Society_Admin(accessCode: 1)),
                         );
                       }
                     }),
@@ -86,17 +76,33 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
     );
   }
 
-  EqTextField buildMobileNoField() {
+  EqTextField buildPwdField() {
     return EqTextField(
-      length: 10,
-      controller: _mobileNoController,
-      keyboardType: TextInputType.phone,
-      prefixIcon: Icon(Icons.phone, color: primaryColor),
-      hintText: strMobileNoInput,
-      labelText: "Mobile No",
+      isObscureText: true,
+      controller: _pwdController,
+      prefixIcon: Icon(Icons.lock, color: primaryColor),
+      hintText: strPasswordInput,
+      labelText: "New Password",
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Mobile No can't be empty ";
+          return "New Password can't be empty ";
+        }
+        return null;
+      },
+    );
+  }
+
+  EqTextField buildConfirmPwdField() {
+    return EqTextField(
+      isObscureText: true,
+      controller: _confirmPwdController,
+      keyboardType: TextInputType.phone,
+      prefixIcon: Icon(Icons.phone, color: primaryColor),
+      hintText: strConfirmPasswordInput,
+      labelText: "Confirm Password",
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Confirm Password can't be empty ";
         }
         return null;
       },

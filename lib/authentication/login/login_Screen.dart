@@ -23,32 +23,35 @@ class _Login_PageState extends State<Login_Page> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 30),
-                    Image.asset('assets/images/app_Icon.png',
-                        height: 280, fit: BoxFit.cover),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child:
-                            Text(strLoginMsg, style: TextStyle(fontSize: 17)),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 40),
+                      Image.asset('assets/images/app_Icon.png',
+                          height: 280, fit: BoxFit.cover),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(strLoginMsg,
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500)),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    loginForm(),
-                    SizedBox(height: 30),
-                  ],
+                      SizedBox(height: 15),
+                      loginForm(),
+                      SizedBox(height: 30),
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -126,7 +129,7 @@ class _Login_PageState extends State<Login_Page> {
                 //         borderRadius: BorderRadius.all(Radius.circular(7))),
                 //   ),
                 // ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 // Login Button
                 Padding(
                   padding: EdgeInsets.all(6),
@@ -164,9 +167,8 @@ class _Login_PageState extends State<Login_Page> {
                 //     ),
                 //   ),
                 // ),
-
                 Padding(
-                  padding: EdgeInsets.only(right: 10, top: 15),
+                  padding: EdgeInsets.only(right: 10, top: 20),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: InkWell(
@@ -174,8 +176,7 @@ class _Login_PageState extends State<Login_Page> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Forgot_Password(
-                                  number: _mobileNoController.text)),
+                              builder: (context) => Forgot_Password()),
                         );
                       },
                       child: Text(
@@ -189,7 +190,7 @@ class _Login_PageState extends State<Login_Page> {
                     ),
                   ),
                 ),
-                SizedBox(height: 60),
+                SizedBox(height: 40),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -243,6 +244,7 @@ class _Login_PageState extends State<Login_Page> {
   EqTextField buildPinField() {
     return EqTextField(
       length: 4,
+      isObscureText: true,
       controller: _pinController,
       keyboardType: TextInputType.number,
       prefixIcon: Icon(Icons.password, color: primaryColor),

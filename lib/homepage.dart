@@ -37,7 +37,7 @@ class _homepageState extends State<homepage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const create_Or_Join_Society()),
+                        builder: (context) => const Create_or_Join_Society()),
                   );
                 },
                 child: Container(

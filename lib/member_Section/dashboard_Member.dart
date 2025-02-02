@@ -412,7 +412,7 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
               children: [
                 ListTile(
                   leading: Icon(Icons.home, color: primaryColor),
-                  title: Text('Prfile'),
+                  title: Text('Profile'),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Profile()));

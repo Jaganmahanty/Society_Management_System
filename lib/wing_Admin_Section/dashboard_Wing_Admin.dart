@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/common/eqWidget/quickAccessMenu.dart';
+import 'package:society_management_system/create_Or_Join_Society_Screen.dart';
 import 'package:society_management_system/profile.dart';
 
 class Dashboard_Wing_Admin extends StatefulWidget {
@@ -205,14 +206,14 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
       items: [
         {
           'icon': Icons.person_search_sharp,
-          'title': "Gate\nKeeper",
+          'title': "Gate Keeper",
           'onPressed': () {
             print("Gate Icon Pressed");
           },
         },
         {
           'icon': Icons.person_add,
-          'title': "Daily\nHelper",
+          'title': "Daily Helper",
           'onPressed': () {
             print("helper Icon Pressed");
           },
@@ -227,7 +228,7 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
       items: [
         {
           'icon': Icons.person_add,
-          'title': "Memory\nGallery",
+          'title': "Memory Gallery",
           'onPressed': () {
             print("Memory Icon Pressed");
           },
@@ -241,7 +242,7 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
         },
         {
           'icon': Icons.construction,
-          'title': "Schedule\nTask",
+          'title': "Schedule Task",
           'onPressed': () {
             print("Task Icon Pressed");
           },
@@ -279,7 +280,7 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
               children: [
                 ListTile(
                   leading: Icon(Icons.home, color: primaryColor),
-                  title: Text('Prfile'),
+                  title: Text('Profile'),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Profile()));
@@ -288,7 +289,12 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
                 ListTile(
                   leading: Icon(Icons.account_box, color: primaryColor),
                   title: Text('Feedback'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Create_or_Join_Society()));
+                  },
                 ),
                 ListTile(
                   leading: Icon(Icons.settings, color: primaryColor),

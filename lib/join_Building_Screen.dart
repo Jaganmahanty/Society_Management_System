@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:society_management_system/common/eqWidget/eqButton.dart';
+import 'package:society_management_system/common/eqWidget/eqTextField.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
 
 class join_Building extends StatefulWidget {
   const join_Building({super.key});
@@ -8,102 +11,77 @@ class join_Building extends StatefulWidget {
 }
 
 class _join_BuildingState extends State<join_Building> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _accessCodeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.deepPurpleAccent.shade100,
+        backgroundColor: primaryColor,
         title: const Text(
           'Join Your Building',
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Form(
-          child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          children: [
-            Expanded(
-                child: Scrollbar(
-                    child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 250,
-                    ),
-                    TextFormField(
-                      keyboardType: TextInputType.phone,
-                      // autovalidateMode: AutovalidateMode.onUserInteraction,
-                      // validator: (value) {
-                      //   if (value == null || value.isEmpty) {
-                      //     return 'Enter G.R.no.';
-                      //   } else {
-                      //     return null;
-                      //   }
-                      // },
-                      // controller: grnoController,
-                      expands: false,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.dialpad,
-                          color: Colors.deepPurpleAccent,
-                        ),
-                        labelText: "Enter Access code",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(7))),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const SizedBox(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                        child: Text(
-                          'Get your building access code from your society administrator.',
-                          style: TextStyle(fontSize: 15, color: Colors.black38),
-                          textAlign: TextAlign.justify,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 45,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurpleAccent,
-                          foregroundColor: Colors.white,
-                          // Text color
-                          shadowColor: Colors.black, // Shadow color
-                          elevation: 5, // Elevation of the button
-                          shape: RoundedRectangleBorder(
-                            // Shape of the button
-                            borderRadius:
-                                BorderRadius.circular(7), // Rounded corners
-                          ),
-                          // Padding inside button
-                        ),
-                        child: const Text(
-                          "Join",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: otpForm(),
+      ),
+    );
+  }
+
+  otpForm() {
+    return Center(
+      child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              buildAccessCodeField(),
+              SizedBox(height: 10),
+              Padding(
+                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Text(
+                    'Get your building access code from your society administrator .',
+                    style: TextStyle(fontSize: 15, color: Colors.black38),
+                    textAlign: TextAlign.justify),
               ),
-            )))
-          ],
-        ),
-      )),
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.all(6),
+                child: EqButton(
+                    text: "Join",
+                    onPressed: () {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => Reset_Password()),
+                        // );
+                      }
+                    }),
+              ),
+            ],
+          )),
+    );
+  }
+
+  EqTextField buildAccessCodeField() {
+    return EqTextField(
+      controller: _accessCodeController,
+      keyboardType: TextInputType.phone,
+      prefixIcon: Icon(Icons.dialpad, color: primaryColor),
+      hintText: "Access Code",
+      labelText: "Enter Access Code",
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Access Code can't be empty ";
+        }
+        return null;
+      },
     );
   }
 }

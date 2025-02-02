@@ -13,11 +13,16 @@ const String strRegisterMsg = "Don't have an Account ?";
 
 const String registrationAppbar = "Registration";
 const String strFirstNameInput = "Enter First Name";
-const String strtLastNameInput = "Enter Last Name";
+const String strLastNameInput = "Enter Last Name";
+
+//--
+const String strPasswordInput = "Enter New Password";
+const String strConfirmPasswordInput = "Enter Confirm Password";
 
 //--Add Member
 const String strAdultMemberInput = "Adult Member Count";
 const String strChildMemberInput = "Child Member Count";
+
 
 
 
@@ -46,9 +51,9 @@ const String joinSocietyButton = "Join Your Society";
 //--society_Details_Screen
 
 const String societyDetailAppbar = "Society Details";
-const String societyNameInput = "Enter Society Name";
-const String societyAddressInput = "Enter Society Address";
-const String noOfWingsInput = "Enter No. Of Wings/Building/Block";
+const String strSocietyNameInput = "Enter Society Name";
+const String strSocietyAddInput = "Enter Society Address";
+const String strNoOfWingsInput = "Enter No. Of Wings/Building/Block";
 
 //--set_Up_Wings_Screen
 

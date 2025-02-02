@@ -16,6 +16,7 @@ class EqTextField extends StatefulWidget {
   final bool? enabled;
   final InputBorder? inputBorder;
   final int? length;
+  final int? maxLines;
   final TextInputAction? textInputAction;
   final TextCapitalization textCapitalization;
   final FocusNode? focusNode;
@@ -32,6 +33,7 @@ class EqTextField extends StatefulWidget {
   const EqTextField(
       {super.key,
       this.length,
+      this.maxLines = 1,
       this.enabled,
       this.focusNode,
       this.validator,
@@ -78,6 +80,7 @@ class _EqTextFieldState extends State<EqTextField> {
           horizontal: widget.hPadding!, vertical: widget.vPadding!),
       child: TextFormField(
         enabled: widget.enabled,
+        
         textInputAction: TextInputAction.next,
         autofocus: widget.autofocus!,
         textCapitalization: widget.textCapitalization,
@@ -85,6 +88,7 @@ class _EqTextFieldState extends State<EqTextField> {
         keyboardType: widget.keyboardType,
         obscureText: widget.isObscureText!,
         obscuringCharacter: widget.obscureCharacter!,
+        maxLines: widget.maxLines,
         onTap: () {
           setState(() {
             if (_isTextSelected) {
