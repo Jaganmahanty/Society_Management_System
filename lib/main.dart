@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:society_management_system/dashboard_Member.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
+import 'package:society_management_system/authentication/login/login_Screen.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
 
 void main() {
   //TT
@@ -19,9 +19,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.robotoTextTheme(),
         appBarTheme: const AppBarTheme(
           backgroundColor: appbarColor,
-          iconTheme: IconThemeData(
-            color: Colors.white, // Set the drawer icon color to white
-          ),
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         // scrollbarTheme: ScrollbarThemeData(
         // thumbColor: WidgetStateProperty.all(Colors.green),
@@ -29,7 +27,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       // home: const Login_Page(),
-      home: const Dashboard_Member(),
+      home: Login_Page(),
     );
   }
 }

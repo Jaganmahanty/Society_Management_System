@@ -1,7 +1,6 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
 
 class EqAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override

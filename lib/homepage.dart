@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/create_Or_Join_Society_Screen.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
-import 'package:society_management_system/global_Declaration/strings.dart';
 
-// ignore: camel_case_types
 class homepage extends StatefulWidget {
   const homepage({super.key});
 
@@ -11,7 +10,6 @@ class homepage extends StatefulWidget {
   State<homepage> createState() => _homepageState();
 }
 
-// ignore: camel_case_types
 class _homepageState extends State<homepage> {
   @override
   Widget build(BuildContext context) {
@@ -71,7 +69,7 @@ class _homepageState extends State<homepage> {
                         child: Text(
                           homepageConnectMsg,
                           textAlign: TextAlign.justify,
-                        ),
+                        ),  
                       ),
                     ],
                   ),

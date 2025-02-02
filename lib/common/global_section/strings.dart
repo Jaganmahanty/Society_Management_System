@@ -12,8 +12,15 @@ const String strRegisterMsg = "Don't have an Account ?";
 //--registration_Screen
 
 const String registrationAppbar = "Registration";
-const String firstNameInput = "Enter First Name";
-const String lastNameInput = "Enter Last Name";
+const String strFirstNameInput = "Enter First Name";
+const String strtLastNameInput = "Enter Last Name";
+
+//--Add Member
+const String strAdultMemberInput = "Adult Member Count";
+const String strChildMemberInput = "Child Member Count";
+
+
+
 //mobileNumberInput
 //passwordInput
 

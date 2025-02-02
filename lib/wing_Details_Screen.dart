@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:society_management_system/display_Flat_Screen.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
-import 'package:society_management_system/global_Declaration/strings.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/common/global_section/strings.dart';
 
-// ignore: camel_case_types
 class wing_details_Screen extends StatefulWidget {
   final String wingName;
   final bool isLastWing;
@@ -14,7 +13,6 @@ class wing_details_Screen extends StatefulWidget {
   State<wing_details_Screen> createState() => _wing_details_ScreenState();
 }
 
-// ignore: camel_case_types
 class _wing_details_ScreenState extends State<wing_details_Screen> {
   final _wingNameController = TextEditingController();
   final _floorsController = TextEditingController();

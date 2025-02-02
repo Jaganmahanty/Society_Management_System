@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/wing_Admin_Section/dashboard_Wing_Admin.dart';
 
-// ignore: camel_case_types
 class dashboard_Society_Admin extends StatefulWidget {
   final int accessCode;
   const dashboard_Society_Admin({super.key, required this.accessCode});
@@ -12,7 +12,6 @@ class dashboard_Society_Admin extends StatefulWidget {
       _dashboard_Society_AdminState();
 }
 
-// ignore: camel_case_types
 class _dashboard_Society_AdminState extends State<dashboard_Society_Admin> {
   @override
   Widget build(BuildContext context) {
@@ -37,9 +36,10 @@ class _dashboard_Society_AdminState extends State<dashboard_Society_Admin> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Share.share(
-                            'Join our society using this access code: ${widget.accessCode}',
-                            subject: 'Society Access Code');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Dashboard_Wing_Admin()));
                       },
                       child: Container(
                         width: double.infinity,
@@ -81,12 +81,19 @@ class _dashboard_Society_AdminState extends State<dashboard_Society_Admin> {
                                   ],
                                 ),
                                 const Spacer(),
-                                const Padding(
+                                Padding(
                                   padding: EdgeInsets.only(right: 15),
-                                  child: Icon(
-                                    Icons.share,
-                                    size: 30,
-                                    color: primaryColor,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      Share.share(
+                                          'Join our society using this access code: ${widget.accessCode}',
+                                          subject: 'Society Access Code');
+                                    },
+                                    icon: Icon(
+                                      Icons.share,
+                                      size: 30,
+                                      color: primaryColor,
+                                    ),
                                   ),
                                 ),
                               ],

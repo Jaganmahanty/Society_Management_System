@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
-import 'package:society_management_system/global_Declaration/strings.dart';
 import 'package:society_management_system/wing_Details_Screen.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/common/global_section/strings.dart';
 
-// ignore: camel_case_types
 class set_Up_Wings_Screen extends StatefulWidget {
   final int noOfWings;
   const set_Up_Wings_Screen({super.key, required this.noOfWings});
@@ -12,7 +11,6 @@ class set_Up_Wings_Screen extends StatefulWidget {
   State<set_Up_Wings_Screen> createState() => _set_Up_Wings_ScreenState();
 }
 
-// ignore: camel_case_types
 class _set_Up_Wings_ScreenState extends State<set_Up_Wings_Screen> {
   late int numberOfWings;
 

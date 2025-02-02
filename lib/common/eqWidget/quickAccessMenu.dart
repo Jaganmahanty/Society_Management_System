@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/global_Declaration/colors.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
 
 class QuickAccessItem extends StatelessWidget {
   final IconData icon;
   final String title;
-  // final String subtitle;
   final VoidCallback onPressed;
 
   const QuickAccessItem(
       {super.key,
       required this.icon,
       required this.title,
-      // required this.subtitle,
       required this.onPressed});
 
   @override
@@ -38,11 +36,11 @@ class QuickAccessItem extends StatelessWidget {
 }
 
 // Main reusable QuickAccess widget
-class QuickAccessWidget extends StatelessWidget {
+class QuickAccessMenu extends StatelessWidget {
   final String title;
   final List<Map<String, dynamic>> items;
 
-  const QuickAccessWidget(
+  const QuickAccessMenu(
       {super.key, required this.title, required this.items});
 
   @override
