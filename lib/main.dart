@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:society_management_system/dashboard_Member.dart';
 import 'package:society_management_system/global_Declaration/colors.dart';
-import 'package:society_management_system/login_Screen.dart';
 
 void main() {
   //TT

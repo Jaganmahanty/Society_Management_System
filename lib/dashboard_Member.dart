@@ -308,7 +308,7 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
         },
         {
           'icon': Icons.person_add,
-          'title': "Daily\Helper",
+          'title': "DailyHelper",
           'onPressed': () {
             print("helper Icon Pressed");
           },

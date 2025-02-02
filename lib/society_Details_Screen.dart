@@ -165,14 +165,11 @@ class _society_DetailsState extends State<society_Details> {
                           backgroundColor: primaryColor,
                           foregroundColor: Colors.white,
                           // Text color
-                          shadowColor: Colors.black, // Shadow color
-                          elevation: 5, // Elevation of the button
+                          shadowColor: Colors.black,
+                          elevation: 5,
                           shape: RoundedRectangleBorder(
-                            // Shape of the button
-                            borderRadius:
-                                BorderRadius.circular(7), // Rounded corners
+                            borderRadius: BorderRadius.circular(7),
                           ),
-                          // Padding inside button
                         ),
                         child: const Text(
                           "Next",
