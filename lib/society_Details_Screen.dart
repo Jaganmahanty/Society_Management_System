@@ -77,7 +77,7 @@ class _Society_DetailsState extends State<Society_Details> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               buildSocNameField(),
-              buildSocieryAddField(),
+              buildSocietyAddField(),
               buildNoOfWingsField(),
             ],
           ),
@@ -99,7 +99,7 @@ class _Society_DetailsState extends State<Society_Details> {
     );
   }
 
-  TextFormField buildSocieryAddField() {
+  TextFormField buildSocietyAddField() {
     return TextFormField(
       controller: _societyAddrController,
       maxLines: 3,

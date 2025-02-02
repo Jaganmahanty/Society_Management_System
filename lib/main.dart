@@ -4,7 +4,7 @@ import 'package:society_management_system/authentication/login/login_Screen.dart
 import 'package:society_management_system/common/global_section/colors.dart';
 
 void main() {
-  //TT
+  //HELLOW WORLD !!
   runApp(const MyApp());
 }
 
