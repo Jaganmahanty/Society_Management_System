@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:society_management_system/home_screen.dart';
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
 import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
-import 'package:society_management_system/dashboard_Society_Admin.dart';
 
 class Reset_Password extends StatefulWidget {
   const Reset_Password({super.key});
@@ -65,8 +65,7 @@ class _Reset_PasswordState extends State<Reset_Password> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  dashboard_Society_Admin(accessCode: 1)),
+                              builder: (context) => Home_Sceeen()),
                         );
                       }
                     }),

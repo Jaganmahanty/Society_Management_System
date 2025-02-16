@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const Color primaryColor = Colors.deepPurpleAccent;
+const Color secondaryColor = Color.fromARGB(255, 166, 134, 252);
 const Color appbarColor = Colors.deepPurpleAccent;
 const Color appbarTextColor = Colors.white;
 

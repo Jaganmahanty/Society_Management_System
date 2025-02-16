@@ -4,8 +4,8 @@ import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/wing_Admin_Section/dashboard_Wing_Admin.dart';
 
 class dashboard_Society_Admin extends StatefulWidget {
-  final int accessCode;
-  const dashboard_Society_Admin({super.key, required this.accessCode});
+  final int? accessCode;
+  const dashboard_Society_Admin({super.key, this.accessCode});
 
   @override
   State<dashboard_Society_Admin> createState() =>

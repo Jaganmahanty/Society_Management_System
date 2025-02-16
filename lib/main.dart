@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:society_management_system/authentication/login/login_Screen.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/authentication/login/login_Screen.dart';
 
 void main() {
   //HELLOW WORLD !!
   runApp(const MyApp());
 }
-
+  
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

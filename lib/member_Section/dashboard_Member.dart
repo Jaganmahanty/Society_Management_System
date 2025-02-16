@@ -230,14 +230,14 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
       items: [
         {
           'icon': Icons.person,
-          'title': "Members",
+          'title': "Members\n ",
           'onPressed': () {
             print("Person Icon Pressed");
           },
         },
         {
           'icon': Icons.car_repair_outlined,
-          'title': "Vehicle",
+          'title': "Vehicle\n ",
           'onPressed': () {
             print("Vehicle Icon Pressed");
           },
@@ -251,7 +251,7 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
         },
         {
           'icon': Icons.bar_chart,
-          'title': "Statictics",
+          'title': "Statictics\n ",
           'onPressed': () {
             print("Statictics Icon Pressed");
           },
@@ -316,14 +316,14 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
         },
         {
           'icon': Icons.check_circle_outline,
-          'title': "Rules",
+          'title': "Rules\n ",
           'onPressed': () {
             print("Rules Icon Pressed");
           },
         },
         {
           'icon': Icons.backup_table_outlined,
-          'title': "Bank",
+          'title': "Bank\n ",
           'onPressed': () {
             print("ank Icon Pressed");
           },
@@ -338,14 +338,14 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
       items: [
         {
           'icon': Icons.person_search_sharp,
-          'title': "Gate\nKeeper",
+          'title': "Gate Keeper",
           'onPressed': () {
             print("Gate Icon Pressed");
           },
         },
         {
           'icon': Icons.person_add,
-          'title': "Daily\nhHelper",
+          'title': "Daily hHelper",
           'onPressed': () {
             print("helper Icon Pressed");
           },

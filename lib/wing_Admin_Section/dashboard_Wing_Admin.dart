@@ -98,14 +98,14 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
       items: [
         {
           'icon': Icons.person,
-          'title': "Members",
+          'title': "Members\n ",
           'onPressed': () {
             print("Person Icon Pressed");
           },
         },
         {
           'icon': Icons.car_repair_outlined,
-          'title': "Vehicle",
+          'title': "Vehicle\n ",
           'onPressed': () {
             print("Vehicle Icon Pressed");
           },
@@ -119,7 +119,7 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
         },
         {
           'icon': Icons.bar_chart,
-          'title': "Statictics",
+          'title': "Statictics\n ",
           'onPressed': () {
             print("Statictics Icon Pressed");
           },
@@ -184,14 +184,14 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
         },
         {
           'icon': Icons.check_circle_outline,
-          'title': "Rules",
+          'title': "Rules\n ",
           'onPressed': () {
             print("Rules Icon Pressed");
           },
         },
         {
           'icon': Icons.backup_table_outlined,
-          'title': "Bank",
+          'title': "Bank\n ",
           'onPressed': () {
             print("ank Icon Pressed");
           },
@@ -277,6 +277,7 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
           ),
           Expanded(
             child: ListView(
+              shrinkWrap: true,
               children: [
                 ListTile(
                   leading: Icon(Icons.home, color: primaryColor),

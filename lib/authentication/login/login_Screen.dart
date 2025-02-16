@@ -1,11 +1,15 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:society_management_system/authentication/registration/forgot_Password_Screen.dart';
-import 'package:society_management_system/authentication/registration/registration_Screen.dart';
-import 'package:society_management_system/common/global_section/colors.dart';
-import 'package:society_management_system/common/global_section/strings.dart';
-import 'package:society_management_system/dashboard_Society_Admin.dart';
+import 'package:http/http.dart' as http;
+import 'package:society_management_system/home_screen.dart';
+import 'package:society_management_system/common/globals.dart';
+import 'package:society_management_system/common/function.dart';
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
 import 'package:society_management_system/common/eqWidget/eqTextField.dart';
+import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/common/global_section/strings.dart';
+import 'package:society_management_system/authentication/registration/registration_Screen.dart';
+import 'package:society_management_system/authentication/registration/forgot_Password_Screen.dart';
 
 class Login_Page extends StatefulWidget {
   const Login_Page({super.key});
@@ -18,6 +22,15 @@ class _Login_PageState extends State<Login_Page> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _mobileNoController = TextEditingController();
   final TextEditingController _pinController = TextEditingController();
+  var user_Mobile;
+  var user_FName;
+  var user_LName;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,105 +81,17 @@ class _Login_PageState extends State<Login_Page> {
               children: [
                 buildMobileNoField(),
                 buildPinField(),
-
-                // Mobile Number Input
-                // TextFormField(
-                //   keyboardType: TextInputType.phone,
-                //   // autovalidateMode: AutovalidateMode
-                //   //     .onUserInteraction,
-                //   // validator: (value) {
-                //   //   if (value == null ||
-                //   //       value.isEmpty) {
-                //   //     return 'Enter parent\'s mobile number';
-                //   //   }
-                //   //   if (value.isNotEmpty &&
-                //   //       value.length != 10) {
-                //   //     return "Mobile no should be 10 digit";
-                //   //   } else {
-                //   //     return null;
-                //   //   }
-                //   // },
-                //   controller: _mobileNoController,
-                //   expands: false,
-                //   decoration:  InputDecoration(
-                //     prefixIcon: Icon(
-                //       Icons.phone,
-                //       color: primaryColor,
-                //     ),
-                //     labelText: mobileNumberInput,
-                //     border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.all(Radius.circular(7))),
-                //   ),
-                // ),
-                //  SizedBox(height: 20),
-
-                // Password PIN Input
-                // TextFormField(
-                //   keyboardType: TextInputType.phone,
-                //   // autovalidateMode: AutovalidateMode
-                //   //     .onUserInteraction,
-                //   // validator: (value) {
-                //   //   if (value == null ||
-                //   //       value.isEmpty) {
-                //   //     return 'Enter pincode number';
-                //   //   }
-                //   //   if (value.isNotEmpty &&
-                //   //       value.length != 6) {
-                //   //     return "Pincode should be 6 digit";
-                //   //   } else {
-                //   //     return null;
-                //   //   }
-                //   // },
-                //   // controller: pincodeController,
-                //   expands: false,
-                //   decoration:  InputDecoration(
-                //     prefixIcon: Icon(
-                //       Icons.password,
-                //       color: primaryColor,
-                //     ),
-                //     labelText: passwordInput,
-                //     border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.all(Radius.circular(7))),
-                //   ),
-                // ),
                 SizedBox(height: 10),
-                // Login Button
                 Padding(
                   padding: EdgeInsets.all(6),
                   child: EqButton(
                       text: "Login",
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState?.validate() ?? false) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    dashboard_Society_Admin(accessCode: 1)),
-                            // MaterialPageRoute(builder: (context) => homepage()),
-                          );
+                          await saveData();
                         }
                       }),
                 ),
-                // SizedBox(
-                //   width: double.infinity,
-                //   height: 45,
-                //   child: ElevatedButton(
-                //     onPressed: () {},
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor: primaryColor,
-                //       foregroundColor: Colors.white,
-                //       shadowColor: Colors.black,
-                //       elevation: 5,
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(7),
-                //       ),
-                //     ),
-                //     child:  Text(
-                //       "Login",
-                //       style: TextStyle(fontSize: 17),
-                //     ),
-                //   ),
-                // ),
                 Padding(
                   padding: EdgeInsets.only(right: 10, top: 20),
                   child: Align(
@@ -224,6 +149,48 @@ class _Login_PageState extends State<Login_Page> {
     );
   }
 
+  Future<bool> saveData() async {
+    showProgressIndicator(context);
+
+    String strMobile = _mobileNoController.text;
+    String strPin = _pinController.text;
+
+    String url = "${Globals.domainUrl}/user_login.php";
+
+    var data = {'mobile': strMobile, 'pin': strPin};
+
+    var body = json.encode(data);
+    print(url);
+    print(body);
+
+    var response = await http.post(Uri.parse(url),
+        headers: {"Content-Type": "application/json"}, body: body);
+    var jsonData = jsonDecode(response.body);
+    print(jsonData);
+
+    hideIndicator(context);
+
+    if (jsonData['success']) {
+      Globals.fName = jsonData['user']['fname'];
+      Globals.lName = jsonData['user']['lname'];
+      setSettings("user_mobile", strMobile);
+      setSettings("user_pin", strPin);
+      setSettings("user_fname", jsonData['user']['fname']);
+      setSettings("user_lname", jsonData['user']['lname']);
+      showSnakebar(context,
+          color: Colors.green, title: jsonData['message'], milliseconds: 2500);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Home_Sceeen()));
+    } else if (jsonData['success'] == false) {
+      showSnakebar(context,
+          color: Colors.red, title: jsonData['message'], milliseconds: 2500);
+    } else {
+      showSnakebar(context,
+          color: Colors.red, title: jsonData['message'], milliseconds: 2500);
+    }
+    return true;
+  }
+
   EqTextField buildMobileNoField() {
     return EqTextField(
       length: 10,
@@ -257,5 +224,27 @@ class _Login_PageState extends State<Login_Page> {
         return null;
       },
     );
+  }
+
+  Future<void> getUserInfo() async {
+    user_Mobile = await getSettings("user_mobile");
+    print('user_Mobile: $user_Mobile');
+    if (user_Mobile.isNotEmpty) {
+      user_FName = await getSettings("user_fname");
+      user_LName = await getSettings("user_lname");
+      print('user_FName: $user_FName');
+      print('user_LName: $user_LName');
+      Globals.mobile = user_Mobile;
+      Globals.fName = user_FName;
+      Globals.lName = user_LName;
+      if (user_Mobile.isNotEmpty ||
+          user_FName.isNotEmpty ||
+          user_LName.isNotEmpty) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Home_Sceeen(userExists: true)));
+      }
+    }
   }
 }

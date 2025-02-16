@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:society_management_system/set_Up_Wings_Screen.dart';
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
 import 'package:society_management_system/common/eqWidget/eqTextField.dart';
-import 'package:society_management_system/set_Up_Wings_Screen.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 
@@ -53,12 +53,16 @@ class _Society_DetailsState extends State<Society_Details> {
                 text: "Next",
                 onPressed: () {
                   int noOfWings = int.tryParse(_noOfWingsController.text) ?? 0;
+                  var name = _societyNameController.text.trim();
+                  var addr = _societyAddrController.text.trim();
                   if (_formKey.currentState?.validate() ?? false) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              set_Up_Wings_Screen(noOfWings: noOfWings)),
+                          builder: (context) => Set_Up_Wings_Screen(
+                              socName: name,
+                              socAddr: addr,
+                              noOfWings: noOfWings)),
                     );
                   }
                 }),
@@ -99,22 +103,26 @@ class _Society_DetailsState extends State<Society_Details> {
     );
   }
 
-  TextFormField buildSocietyAddField() {
-    return TextFormField(
-      controller: _societyAddrController,
-      maxLines: 3,
-      decoration: InputDecoration(
-        prefixIcon: Icon(Icons.place, color: primaryColor),
-        hintText: strSocietyAddInput,
-        labelText: "Society Address",
-        border: OutlineInputBorder(),
+  Padding buildSocietyAddField() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        controller: _societyAddrController,
+        maxLines: 3,
+        textCapitalization: TextCapitalization.characters,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.place, color: primaryColor),
+          hintText: strSocietyAddInput,
+          labelText: "Society Address",
+          border: OutlineInputBorder(),
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return "Society Address can't be empty";
+          }
+          return null;
+        },
       ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return "Society Address can't be empty";
-        }
-        return null;
-      },
     );
   }
 

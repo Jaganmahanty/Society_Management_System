@@ -22,7 +22,7 @@ class _join_BuildingState extends State<join_Building> {
         backgroundColor: primaryColor,
         title: const Text(
           'Join Your Building',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       backgroundColor: Colors.white,
@@ -46,7 +46,7 @@ class _join_BuildingState extends State<join_Building> {
                 padding: EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Text(
                     'Get your building access code from your society administrator .',
-                    style: TextStyle(fontSize: 15, color: Colors.black38),
+                    style: TextStyle(fontSize: 15, color: Colors.black54),
                     textAlign: TextAlign.justify),
               ),
               SizedBox(height: 20),
@@ -71,6 +71,7 @@ class _join_BuildingState extends State<join_Building> {
 
   EqTextField buildAccessCodeField() {
     return EqTextField(
+      length: 8,
       controller: _accessCodeController,
       keyboardType: TextInputType.phone,
       prefixIcon: Icon(Icons.dialpad, color: primaryColor),

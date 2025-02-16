@@ -1,4 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:society_management_system/common/globals.dart';
+import 'package:society_management_system/common/function.dart';
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
 import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
@@ -53,12 +57,9 @@ class _registration_PageState extends State<registration_Page> {
               padding: EdgeInsets.all(8),
               child: EqButton(
                   text: "Register",
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState?.validate() ?? false) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Login_Page()));
+                      await saveData();
                     }
                   }),
             ),
@@ -83,6 +84,50 @@ class _registration_PageState extends State<registration_Page> {
             ],
           ),
         ));
+  }
+
+  Future<bool> saveData() async {
+    showProgressIndicator(context);
+
+    var id = 0;
+    // id = widget.xId;
+    String strFName = _firstNameController.text;
+    String strLName = _lastNameController.text;
+    String strMobile = _mobileNoController.text;
+    String strPin = _pinController.text;
+
+    String url = "${Globals.domainUrl}/user_reg.php?id=$id";
+
+    var data = {
+      'fname': strFName,
+      'lname': strLName,
+      'mobile': strMobile,
+      'pin': strPin
+    };
+
+    var body = json.encode(data);
+    print(url);
+    print(body);
+    var response = await http.post(Uri.parse(url),
+        headers: {"Content-Type": "application/json"}, body: body);
+    var jsonData = jsonDecode(response.body);
+    print(jsonData);
+
+    hideIndicator(context);
+
+    if (jsonData['success']) {
+      showSnakebar(context,
+          color: Colors.green, title: jsonData['message'], milliseconds: 2500);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Login_Page()));
+    } else if (jsonData['success'] == false) {
+      showSnakebar(context,
+          color: Colors.red, title: jsonData['message'], milliseconds: 2500);
+    } else {
+      showSnakebar(context,
+          color: Colors.red, title: jsonData['message'], milliseconds: 2500);
+    }
+    return true;
   }
 
   EqTextField buildFirstNameField() {
