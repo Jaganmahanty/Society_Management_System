@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:society_management_system/common/function.dart';
+import 'package:society_management_system/common/globals.dart';
+import 'package:society_management_system/dashboard_Society_Admin.dart';
 import 'package:society_management_system/wing_Details_Screen.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
@@ -23,6 +26,7 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
   late int numberOfWings;
   late List<bool> wingStatus;
   var wingResults;
+  late List<String> wingNames;
 
   @override
   void initState() {
@@ -31,6 +35,8 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
     wingStatus = List.generate(numberOfWings, (index) => false);
 
     wingResults = List.generate(widget.noOfWings, (index) => "");
+    wingNames = List.generate(
+        numberOfWings, (index) => String.fromCharCode(65 + index));
   }
 
   @override
@@ -58,7 +64,7 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
                 child: buildWingGrid(
                   numberOfWings,
                   wingStatus,
-                  wingResults,
+                  wingNames,
                   (wingIndex) async {
                     bool isLastWing = (wingIndex == numberOfWings - 1);
 
@@ -72,13 +78,14 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
 
                     print("Result Data :->  $wingIndex");
                     print("Result Data :->  $res");
+                    print("Result Data :->  ${res.runtimeType}");
+                    var resJson = json.decode(res);
 
                     if (res != null) {
                       setState(() {
                         wingResults[wingIndex] = res;
-                        if (wingResults[wingIndex] != null) {
-                          wingStatus[wingIndex] = true;
-                        }
+                        wingStatus[wingIndex] = true;
+                        wingNames[wingIndex] = resJson['wingInfo']['wingName'];
                       });
                     }
 
@@ -87,7 +94,10 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
                           .every((result) => result != null && result != "");
 
                       if (allCompleted) {
+                        Map<String, dynamic> combinedData = {};
                         List<Map<String, dynamic>> wingDataList = [];
+                        // List<Map<String, dynamic>> flatDataList = [];
+
                         for (int i = 0; i < numberOfWings; i++) {
                           var result = wingResults[i];
 
@@ -96,7 +106,7 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
                               var decodedResult = json.decode(result);
                               if (decodedResult is Map) {
                                 result = decodedResult;
-                                print('result: ${result}');
+                                print('result: $result');
                               }
                             } catch (e) {
                               //
@@ -104,31 +114,33 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
                           }
 
                           if (result is Map) {
+                            // Society Data (this remains the same for all wings)
+                            if (i == 0) {
+                              combinedData['society'] = {
+                                'socName': widget.socName,
+                                'socAddr': widget.socAddr,
+                              };
+                            }
+
+                            // Wing Data
                             wingDataList.add({
-                              'socName': widget.socName,
-                              'socAddr': widget.socAddr,
-                              'srl': result['wingInfo']['srl'],
-                              'wingName': String.fromCharCode(65 + i),
+                              'wingName': wingNames[i],
                               'noofFloor': result['wingInfo']['noofFloor'],
-                              'flatsPerFloor': result['wingInfo']['flatsPerFloor'],
-                              'flatStatus':result['statusInfo']
+                              'flatsPerFloor': result['wingInfo']
+                                  ['flatsPerFloor'],
+                              'flats': result['statusInfo'],
                             });
                           }
                         }
 
-                        Map<String, dynamic> combinedData = {
-                          'wingdata': wingDataList
-                        };
+                        combinedData['wings'] = wingDataList;
+                        combinedData['mobile'] =
+                            await getSettings("user_mobile");
 
                         var data = json.encode(combinedData);
                         print("Combined Data: \n$data");
-                        
-                        showProgressIndicator(context);
 
-                        // callFunction to store winf data into datbase adn navigate to next screen
-                        // storeData(Data);
-                        await Future.delayed(Duration(milliseconds: 800));
-
+                        saveData(combinedData);
                       } else {
                         showDialog(
                           context: context,
@@ -163,16 +175,15 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
   GridView buildWingGrid(
     int wingNo,
     List<bool> wingStatus,
-    List<String?> wingResults,
+    List<String> wingNames,
     Function(int) OnTap,
   ) {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 3,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 35,
-      ),
+          crossAxisCount: 2,
+          childAspectRatio: 3,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 35),
       itemCount: numberOfWings,
       itemBuilder: (context, index) {
         bool isSuccess = wingStatus[index];
@@ -185,12 +196,52 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
           ),
           onPressed: () => OnTap(index),
           child: Text(
-            'Wing - ${String.fromCharCode(65 + index)}',
+            wingNames[index],
             style: const TextStyle(fontSize: 16, color: Colors.white),
           ),
         );
       },
     );
+  }
+
+  Future<bool> saveData(data) async {
+    showProgressIndicator(context);
+
+    // String strMobile = _mobileNoController.text;
+    // String strPin = _pinController.text;
+
+    String url = "${Globals.domainUrl}/society_creation.php";
+
+    var body = json.encode(data);
+    print(url);
+    print(body);
+
+    var response = await http.post(Uri.parse(url),
+        headers: {"Content-Type": "application/json"}, body: body);
+    print(response.body);
+    var jsonData = jsonDecode(response.body);
+
+    hideIndicator(context);
+
+    if (jsonData['success']) {
+      setSettings("usertype", "soc_admin");
+      setSettings("socName", jsonData['soc']['name'].toString());
+      setSettings("accessCode", jsonData['soc']['accesscode'].toString());
+      showSnakebar(context,
+          color: Colors.green, title: jsonData['message'], milliseconds: 2500);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => dashboard_Society_Admin(
+                  accessCode: jsonData['soc']['accesscode'])));
+    } else if (jsonData['success'] == false) {
+      showSnakebar(context,
+          color: Colors.red, title: jsonData['message'], milliseconds: 2500);
+    } else {
+      showSnakebar(context,
+          color: Colors.red, title: jsonData['message'], milliseconds: 2500);
+    }
+    return true;
   }
 
   Future<bool> _onWillPop() async {
@@ -220,5 +271,4 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
     );
     return confirmExit ?? false;
   }
-
 }

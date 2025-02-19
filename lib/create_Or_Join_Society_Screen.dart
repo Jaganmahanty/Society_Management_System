@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:society_management_system/join_Building_Screen.dart';
+import 'package:society_management_system/society_Details_Screen.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
-import 'package:society_management_system/society_Details_Screen.dart';
 
 class Create_or_Join_Society extends StatefulWidget {
   const Create_or_Join_Society({super.key});

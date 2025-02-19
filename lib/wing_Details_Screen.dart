@@ -155,7 +155,7 @@ class _wing_details_ScreenState extends State<wing_details_Screen> {
 
   EqTextField buildWingNameField() {
     return EqTextField(
-      enabled: false,
+      // enabled: false,
       controller: _wingNameController,
       prefixIcon: Icon(Icons.home, color: primaryColor),
       hintText: "Wing Name",

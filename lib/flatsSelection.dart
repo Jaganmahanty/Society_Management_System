@@ -38,10 +38,9 @@ class FlatSelectionScreenState extends State<FlatSelectionScreen> {
     super.initState();
     gridData = generateGridData(widget.noofFloor, widget.noOfFlats);
 
-    // Initialize flatStatus with all flats marked as active (true)
     for (var row in gridData) {
       for (var flat in row) {
-        flatStatus[flat] = true; // Default status: Active (true)
+        flatStatus[flat] = true;
       }
     }
   }
@@ -120,7 +119,6 @@ class FlatSelectionScreenState extends State<FlatSelectionScreen> {
               EqButton(
                   text: "Save status",
                   onPressed: () {
-                    // Ensure all flats are included in the final JSON output
                     // Map<String, bool> completeFlatStatus = {};
                     List<Map<String, dynamic>> flatDataList = [];
 
@@ -134,8 +132,6 @@ class FlatSelectionScreenState extends State<FlatSelectionScreen> {
                         });
                       }
                     }
-
-                    // String jsonResult = jsonEncode(flatDataList);
                     print("Selected Flats JSON 1 : $flatDataList");
                     Navigator.pop(context, flatDataList);
                   }),
@@ -157,14 +153,13 @@ class FlatSelectionScreenState extends State<FlatSelectionScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(true); // Discard changes
+                Navigator.of(context).pop(true);
               },
               child: Text('Discard'),
             ),
             TextButton(
               onPressed: () {
                 List<Map<String, dynamic>> flatDataList = [];
-
                 for (var row in gridData) {
                   for (var flat in row) {
                     flatDataList.add({
@@ -173,10 +168,8 @@ class FlatSelectionScreenState extends State<FlatSelectionScreen> {
                     });
                   }
                 }
-
                 // String jsonResult = jsonEncode(flatDataList);
                 print("Selected Flats JSON 0 : $flatDataList");
-
                 Navigator.of(context).pop(false);
                 Navigator.pop(context, flatDataList);
               },
