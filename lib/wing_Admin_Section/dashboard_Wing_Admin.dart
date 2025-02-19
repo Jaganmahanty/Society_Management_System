@@ -3,6 +3,7 @@ import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/common/eqWidget/quickAccessMenu.dart';
 import 'package:society_management_system/create_Or_Join_Society_Screen.dart';
+import 'package:society_management_system/home_screen.dart';
 import 'package:society_management_system/profile.dart';
 
 class Dashboard_Wing_Admin extends StatefulWidget {
@@ -290,12 +291,7 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
                 ListTile(
                   leading: Icon(Icons.account_box, color: primaryColor),
                   title: Text('Feedback'),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Create_or_Join_Society()));
-                  },
+                  onTap: () {},
                 ),
                 ListTile(
                   leading: Icon(Icons.settings, color: primaryColor),
@@ -320,7 +316,10 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
                 ListTile(
                   leading: Icon(Icons.logout),
                   title: Text('Exit to Home Screen'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Home_Sceeen()));
+                  },
                 ),
               ],
             ),

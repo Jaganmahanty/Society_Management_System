@@ -78,3 +78,5 @@ const String inactiveFlatsMsg = "Inactive Flats";
 const String toastMsg = "Society Details have been saved";
 
 //--dashboard_Society_Admin
+
+

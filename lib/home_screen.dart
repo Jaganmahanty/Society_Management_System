@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/common/globals.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/create_Or_Join_Society_Screen.dart';
+import 'package:society_management_system/profile.dart';
 
 class Home_Sceeen extends StatefulWidget {
   final bool? userExists;
@@ -23,6 +25,7 @@ class _Home_SceeenState extends State<Home_Sceeen> {
           style: TextStyle(color: appbarTextColor),
         ),
       ),
+      drawer: buildWingAdminDrawer(),
       body: Container(
         color: Colors.blueGrey[50],
         height: double.infinity,
@@ -89,6 +92,83 @@ class _Home_SceeenState extends State<Home_Sceeen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Drawer buildWingAdminDrawer() {
+    return Drawer(
+      child: Column(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: DrawerHeader(
+              decoration: BoxDecoration(color: primaryColor),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.account_circle, size: 60, color: Colors.white),
+                  SizedBox(height: 10),
+                  Text(
+                    strUsername,
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                ListTile(
+                  leading: Icon(Icons.home, color: primaryColor),
+                  title: Text('Profile'),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Profile()));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.account_box, color: primaryColor),
+                  title: Text('Feedback'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings, color: primaryColor),
+                  title: Text('Terms & Condition'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.notifications, color: primaryColor),
+                  title: Text('Privacy Policy'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.help, color: primaryColor),
+                  title: Text('Contact Us'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.help, color: primaryColor),
+                  title: Text('About Us'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Exit to Home Screen'),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Home_Sceeen()));
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
