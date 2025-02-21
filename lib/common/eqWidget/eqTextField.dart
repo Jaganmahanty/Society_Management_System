@@ -80,7 +80,6 @@ class _EqTextFieldState extends State<EqTextField> {
           horizontal: widget.hPadding!, vertical: widget.vPadding!),
       child: TextFormField(
         enabled: widget.enabled,
-        
         textInputAction: TextInputAction.next,
         autofocus: widget.autofocus!,
         textCapitalization: widget.textCapitalization,

@@ -39,7 +39,7 @@ class EqButtonState extends State<EqButton> {
           style: const TextStyle(
             fontSize: 17,
             color: Colors.white,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),

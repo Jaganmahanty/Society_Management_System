@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/common/eqWidget/quickAccessMenu.dart';
-import 'package:society_management_system/create_Or_Join_Society_Screen.dart';
 import 'package:society_management_system/home_screen.dart';
 import 'package:society_management_system/profile.dart';
 
