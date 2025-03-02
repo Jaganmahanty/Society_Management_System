@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:society_management_system/flatsSelection.dart';
 import 'package:society_management_system/common/function.dart';
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
 import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
+import 'package:society_management_system/authentication/soc_creation/flatsSelection.dart';
 
 class wing_details_Screen extends StatefulWidget {
   final int wingIndex;

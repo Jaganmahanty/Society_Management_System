@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/dashboard_Society_Admin.dart';
+import 'package:toggle_switch/toggle_switch.dart';
+import 'package:society_management_system/s_admin_section/dashboard_Society_Admin.dart';
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
 import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 
-class Profile extends StatefulWidget {
-  bool? isMember;
-  Profile({super.key, this.isMember = true});
+class Add_Member extends StatefulWidget {
+  const Add_Member({super.key});
 
   @override
-  @override
-  State<Profile> createState() => _ProfileState();
+  State<Add_Member> createState() => _Add_MemberState();
 }
 
-class _ProfileState extends State<Profile> {
+class _Add_MemberState extends State<Add_Member> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -23,17 +22,6 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _childMemberController = TextEditingController();
 
   bool isEditMode = false;
-  bool isMemberProfile = false;
-
-  @override
-  void initState() {
-    if (widget.isMember!) {
-      setState(() {
-        isMemberProfile = true;
-      });
-    }
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +29,7 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "Profile",
+          "Add",
           style: TextStyle(color: appbarTextColor),
         ),
       ),
@@ -53,28 +41,8 @@ class _ProfileState extends State<Profile> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
-                      width: double.infinity,
-                      height: (MediaQuery.of(context).size.height * 30 / 100),
-                      color: primaryColor,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.account_circle,
-                              size: 60, color: Colors.white),
-                          SizedBox(height: 10),
-                          Text(
-                            strUsername,
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
                     SizedBox(height: 20),
-                    profileForm(),
+                    addMemberForm(),
                   ],
                 ),
               ),
@@ -82,22 +50,15 @@ class _ProfileState extends State<Profile> {
             Padding(
               padding: EdgeInsets.only(bottom: 20, left: 8, right: 8),
               child: EqButton(
-                  text: isEditMode ? "Save" : "Edit Profile",
+                  text: "Save",
                   onPressed: () {
-                    if (!isEditMode) {
-                      setState(() {
-                        isEditMode = true;
-                      });
-                    } else {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  dashboard_Society_Admin(accessCode: 1)),
-                          // MaterialPageRoute(builder: (context) => homepage()),
-                        );
-                      }
+                    if (_formKey.currentState?.validate() ?? false) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                dashboard_Society_Admin(accessCode: 1)),
+                      );
                     }
                   }),
             ),
@@ -107,7 +68,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  profileForm() {
+  addMemberForm() {
     return Center(
       child: Form(
           key: _formKey,
@@ -116,11 +77,42 @@ class _ProfileState extends State<Profile> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (isEditMode) buildFirstNameField(),
-                if (isEditMode) buildLastNameField(),
+                buildFirstNameField(),
+                buildLastNameField(),
                 buildMobileNoField(),
-                if (isMemberProfile) buildAdultMemberField(),
-                if (isMemberProfile) buildChildMemberField(),
+                buildAdultMemberField(),
+                buildChildMemberField(),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Owner type :",style: TextStyle(fontWeight: FontWeight.w600)),
+                        SizedBox(height: 5),
+                        ToggleSwitch(
+                          minWidth: 90.0,
+                          totalSwitches: 2,
+                          cornerRadius: 20.0,
+                          initialLabelIndex: 0,
+                          activeFgColor: Colors.white,
+                          inactiveBgColor: Colors.grey,
+                          inactiveFgColor: Colors.white,
+                          labels: ['Owner', 'Rent'],
+                          icons: [Icons.home, Icons.house],
+                          activeBgColors: [
+                            [primaryColor],
+                            [Colors.red]
+                          ],
+                          onToggle: (index) {
+                            print('switched to: $index');
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           )),
@@ -130,7 +122,6 @@ class _ProfileState extends State<Profile> {
   EqTextField buildMobileNoField() {
     return EqTextField(
       length: 10,
-      enabled: isEditMode,
       controller: _mobileNoController,
       keyboardType: TextInputType.phone,
       hintText: strMobileNoInput,
@@ -178,7 +169,6 @@ class _ProfileState extends State<Profile> {
 
   EqTextField buildAdultMemberField() {
     return EqTextField(
-      enabled: isEditMode,
       controller: _adultMemberController,
       keyboardType: TextInputType.number,
       prefixIcon: Icon(Icons.people, color: primaryColor),
@@ -195,7 +185,6 @@ class _ProfileState extends State<Profile> {
 
   EqTextField buildChildMemberField() {
     return EqTextField(
-      enabled: isEditMode,
       controller: _childMemberController,
       keyboardType: TextInputType.number,
       prefixIcon: Icon(Icons.child_care, color: primaryColor),

@@ -27,12 +27,12 @@ class _join_BuildingState extends State<join_Building> {
       ),
       backgroundColor: Colors.white,
       body: Center(
-        child: otpForm(),
+        child: joinBuildingForm(),
       ),
     );
   }
 
-  otpForm() {
+  joinBuildingForm() {
     return Center(
       child: Form(
           key: _formKey,

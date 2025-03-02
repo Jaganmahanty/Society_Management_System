@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:society_management_system/profile.dart';
+import 'package:society_management_system/member_Section/profile.dart';
 import 'package:society_management_system/home_screen.dart';
+import 'package:society_management_system/common/globals.dart';
+import 'package:society_management_system/common/function.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/common/eqWidget/quickAccessMenu.dart';
-import 'package:society_management_system/wing_Admin_Section/dashboard_Wing_Admin.dart';
+import 'package:society_management_system/w_admin_Section/dashboard_Wing_Admin.dart';
 
 class dashboard_Society_Admin extends StatefulWidget {
   final int? accessCode;
@@ -17,6 +19,13 @@ class dashboard_Society_Admin extends StatefulWidget {
 }
 
 class _dashboard_Society_AdminState extends State<dashboard_Society_Admin> {
+  var accessCode = '';
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +79,9 @@ class _dashboard_Society_AdminState extends State<dashboard_Society_Admin> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: Text(
-                                    "${widget.accessCode}",
+                                    accessCode.toString().isNotEmpty
+                                        ? accessCode
+                                        : "0",
                                     style: const TextStyle(
                                         color: primaryColor,
                                         fontSize: 16,
@@ -83,7 +94,7 @@ class _dashboard_Society_AdminState extends State<dashboard_Society_Admin> {
                             IconButton(
                               onPressed: () {
                                 Share.share(
-                                    'Join our society using this access code: ${widget.accessCode}',
+                                    'Join our society by using this access code: $accessCode',
                                     subject: 'Society Access Code');
                               },
                               icon: Icon(Icons.share,
@@ -320,8 +331,11 @@ class _dashboard_Society_AdminState extends State<dashboard_Society_Admin> {
                   leading: Icon(Icons.home, color: primaryColor),
                   title: Text('Profile'),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Profile(
+                                isMember: false, mobile: Globals.mobile)));
                   },
                 ),
                 ListTile(
@@ -363,5 +377,11 @@ class _dashboard_Society_AdminState extends State<dashboard_Society_Admin> {
         ],
       ),
     );
+  }
+
+  Future<void> getData() async {
+    accessCode = await getSettings("accessCode");
+    print('accessCode: $accessCode');
+    setState(() {});
   }
 }

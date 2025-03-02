@@ -4,7 +4,6 @@ import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/authentication/login/login_Screen.dart';
 
 void main() {
-  //HELLOW WORLD !!
   runApp(const MyApp());
 }
 
@@ -15,7 +14,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        // adding comment here later will delete.
         primaryColor: primaryColor,
         textTheme: GoogleFonts.robotoTextTheme(),
         appBarTheme: const AppBarTheme(
@@ -27,7 +25,7 @@ class MyApp extends StatelessWidget {
         // )
       ),
       debugShowCheckedModeBanner: false,
-      home: Login_Page(),
+      home: Login_Page(findUser: true),
     );
   }
 }

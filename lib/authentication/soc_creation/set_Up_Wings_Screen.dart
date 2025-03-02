@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:society_management_system/common/function.dart';
 import 'package:society_management_system/common/globals.dart';
-import 'package:society_management_system/dashboard_Society_Admin.dart';
-import 'package:society_management_system/wing_Details_Screen.dart';
+import 'package:society_management_system/common/function.dart';
+import 'package:society_management_system/authentication/soc_creation/wing_Details_Screen.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
+import 'package:society_management_system/s_admin_section/dashboard_Society_Admin.dart';
 
 class Set_Up_Wings_Screen extends StatefulWidget {
   final String socName;
@@ -78,7 +78,7 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
 
                     print("Result Data :->  $wingIndex");
                     print("Result Data :->  $res");
-                    print("Result Data :->  ${res.runtimeType}");
+                    print("Result type :->  ${res.runtimeType}");
                     var resJson = json.decode(res);
 
                     if (res != null) {
@@ -140,7 +140,7 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
                         var data = json.encode(combinedData);
                         print("Combined Data: \n$data");
 
-                        saveData(combinedData);
+                        createSoc(combinedData);
                       } else {
                         showDialog(
                           context: context,
@@ -204,7 +204,7 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
     );
   }
 
-  Future<bool> saveData(data) async {
+  Future<bool> createSoc(data) async {
     showProgressIndicator(context);
 
     // String strMobile = _mobileNoController.text;
@@ -227,6 +227,7 @@ class _Set_Up_Wings_ScreenState extends State<Set_Up_Wings_Screen> {
       setSettings("usertype", "soc_admin");
       setSettings("socName", jsonData['soc']['name'].toString());
       setSettings("accessCode", jsonData['soc']['accesscode'].toString());
+      setSettings("userrole1", "admin_s");
       showSnakebar(context,
           color: Colors.green, title: jsonData['message'], milliseconds: 2500);
       Navigator.push(
