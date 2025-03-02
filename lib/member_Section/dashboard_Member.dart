@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:society_management_system/common/globals.dart';
+import 'package:society_management_system/member_Section/profile.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/common/eqWidget/quickAccessMenu.dart';
 import 'package:society_management_system/member_Section/complaints_Member.dart';
-import 'package:society_management_system/profile.dart';
 
 class Dashboard_Member extends StatefulWidget {
   const Dashboard_Member({super.key});
@@ -416,8 +417,11 @@ class _Dashboard_MemberState extends State<Dashboard_Member> {
                   leading: Icon(Icons.home, color: primaryColor),
                   title: Text('Profile'),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Profile(mobile: Globals.mobile)));
                   },
                 ),
                 ListTile(

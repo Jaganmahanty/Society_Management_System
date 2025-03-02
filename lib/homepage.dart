@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
-import 'package:society_management_system/create_Or_Join_Society_Screen.dart';
+import 'package:society_management_system/authentication/soc_creation/create_Or_Join_Society_Screen.dart';
 
 class homepage extends StatefulWidget {
   const homepage({super.key});

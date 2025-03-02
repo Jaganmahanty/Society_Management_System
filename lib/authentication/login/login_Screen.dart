@@ -12,7 +12,8 @@ import 'package:society_management_system/authentication/registration/registrati
 import 'package:society_management_system/authentication/registration/forgot_Password_Screen.dart';
 
 class Login_Page extends StatefulWidget {
-  const Login_Page({super.key});
+  final bool? findUser;
+  const Login_Page({super.key, this.findUser = false});
 
   @override
   State<Login_Page> createState() => _Login_PageState();
@@ -29,7 +30,7 @@ class _Login_PageState extends State<Login_Page> {
   @override
   void initState() {
     super.initState();
-    getUserInfo();
+    if (widget.findUser!) getUserInfo();
   }
 
   @override

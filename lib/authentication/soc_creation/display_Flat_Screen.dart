@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/dashboard_Society_Admin.dart';
+import 'package:society_management_system/s_admin_section/dashboard_Society_Admin.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 

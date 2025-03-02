@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:society_management_system/set_Up_Wings_Screen.dart';
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
 import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
+import 'package:society_management_system/authentication/soc_creation/set_Up_Wings_Screen.dart';
 
 class Society_Details extends StatefulWidget {
   const Society_Details({super.key});

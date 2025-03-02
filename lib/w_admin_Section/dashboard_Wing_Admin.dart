@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/common/eqWidget/quickAccessMenu.dart';
+import 'package:society_management_system/common/globals.dart';
 import 'package:society_management_system/home_screen.dart';
-import 'package:society_management_system/profile.dart';
+import 'package:society_management_system/member_Section/profile.dart';
 
 class Dashboard_Wing_Admin extends StatefulWidget {
   const Dashboard_Wing_Admin({super.key});
@@ -283,8 +284,11 @@ class _Dashboard_Wing_AdminState extends State<Dashboard_Wing_Admin> {
                   leading: Icon(Icons.home, color: primaryColor),
                   title: Text('Profile'),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Profile(
+                                isMember: false, mobile: Globals.mobile)));
                   },
                 ),
                 ListTile(
