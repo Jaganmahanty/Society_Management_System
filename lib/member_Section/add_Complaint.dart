@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:society_management_system/common/eqWidget/eqAlertDialog.dart';
+import 'package:society_management_system/common/eqWidget/eqAlertDialog1.dart';
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
 import 'package:society_management_system/common/eqWidget/eqImagePicker.dart';
 import 'package:society_management_system/common/eqWidget/eqLoadingDialog.dart';
@@ -8,6 +8,7 @@ import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:society_management_system/utils/image_compression_util.dart';
 
 class Add_Complaint extends StatefulWidget {
   final int tabIndex;
@@ -39,24 +40,35 @@ class _Add_ComplaintState extends State<Add_Complaint> {
     showEqLoadingDialog(context);
 
     try {
-      var response = await http.post(
-        Uri.parse("https://bearpridejewelry.com/insert_action.php"),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "title": _titleController.text,
-          "detail": _DescriptionController.text.isNotEmpty
-              ? _DescriptionController.text
-              : "",
-          "addTo": addTo,
-          "type": type,
-        }),
-      );
+      var uri = Uri.parse("https://bearpridejewelry.com/insert_action.php");
+      var request = http.MultipartRequest("POST", uri);
+
+      // Add text fields
+      request.fields["title"] = _titleController.text;
+      request.fields["detail"] = _DescriptionController.text.isNotEmpty
+          ? _DescriptionController.text
+          : "";
+      request.fields["addTo"] = addTo;
+      request.fields["type"] = type;
+
+      // Compress and add images
+      for (var image in _selectedImages) {
+        File? compressedImage = await ImageCompressionUtil.compressImage(image);
+        if (compressedImage != null) {
+          request.files.add(
+            await http.MultipartFile.fromPath("images[]", compressedImage.path),
+          );
+        }
+      }
+
+      var response = await request.send();
+      var responseData = await response.stream.bytesToString();
 
       closeEqLoadingDialog(context);
 
       if (response.statusCode == 200) {
         try {
-          var result = jsonDecode(response.body);
+          var result = jsonDecode(responseData);
           if (result["success"]) {
             showEqAlertDialog(
               context,
@@ -77,7 +89,7 @@ class _Add_ComplaintState extends State<Add_Complaint> {
           showEqAlertDialog(
             context,
             title: "Error",
-            message: "Inavalid Server Response.",
+            message: "Invalid Server Response.",
           );
         }
       } else {
@@ -109,6 +121,7 @@ class _Add_ComplaintState extends State<Add_Complaint> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Form(
@@ -149,8 +162,7 @@ class _Add_ComplaintState extends State<Add_Complaint> {
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
         controller: _DescriptionController,
-        maxLines: 5,
-        textCapitalization: TextCapitalization.characters,
+        maxLines: 10,
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.description, color: primaryColor),
           hintText: "Enter Complaint Description",
@@ -161,12 +173,22 @@ class _Add_ComplaintState extends State<Add_Complaint> {
     );
   }
 
-  Eqimagepicker buildImagePicker() {
-    return Eqimagepicker(
+  EqImagePicker buildImagePicker() {
+    return EqImagePicker(
       selectedImages: _selectedImages,
-      onImagesSelected: (images) {
+      onImagesSelected: (images) async {
+        List<File> compressedImages = [];
+
+        for (var image in images) {
+          File? compressedImage =
+              await ImageCompressionUtil.compressImage(image);
+          if (compressedImage != null) {
+            compressedImages.add(compressedImage);
+          }
+        }
+
         setState(() {
-          _selectedImages = images;
+          _selectedImages = compressedImages;
         });
       },
     );

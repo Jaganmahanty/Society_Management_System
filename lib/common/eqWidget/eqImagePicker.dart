@@ -4,24 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 
-class Eqimagepicker extends StatefulWidget {
-  final List<File> selectedImages; // Image list to store selected images
-  final Function(List<File>) onImagesSelected; // Callback function
+class EqImagePicker extends StatefulWidget {
+  final List<File> selectedImages;
+  final Function(List<File>) onImagesSelected;
+  final bool showGrid;
 
-  const Eqimagepicker({
-    Key? key,
+  const EqImagePicker({
+    super.key,
     required this.selectedImages,
     required this.onImagesSelected,
-  }) : super(key: key);
+    this.showGrid = true,
+  });
 
   @override
-  State<Eqimagepicker> createState() => _EqimagepickerState();
+  State<EqImagePicker> createState() => _EqimagepickerState();
 }
 
-class _EqimagepickerState extends State<Eqimagepicker> {
+class _EqimagepickerState extends State<EqImagePicker> {
   final ImagePicker _picker = ImagePicker();
 
-  // Function to pick multiple images
   Future<void> _pickMultipleImages() async {
     final List<XFile>? pickedFiles = await _picker.pickMultiImage();
 
@@ -33,24 +34,14 @@ class _EqimagepickerState extends State<Eqimagepicker> {
         widget.selectedImages.addAll(newImages);
       });
 
-      widget.onImagesSelected(widget.selectedImages); // Notify parent
+      widget.onImagesSelected(widget.selectedImages);
     }
-  }
-
-  // Function to remove an image
-  void _removeImage(int index) {
-    setState(() {
-      widget.selectedImages.removeAt(index);
-    });
-
-    widget.onImagesSelected(widget.selectedImages); // Notify parent
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Row with title and select button
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
           child: Row(
@@ -75,57 +66,52 @@ class _EqimagepickerState extends State<Eqimagepicker> {
             ],
           ),
         ),
-         
         const SizedBox(height: 10),
-
-        // Display selected images in GridView
-        widget.selectedImages.isNotEmpty
-            ? GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                  childAspectRatio: 1,
-                ),
-                itemCount: widget.selectedImages.length,
-                itemBuilder: (context, index) {
-                  return Stack(
-                    children: [
-                      // Display selected image
-                      Positioned.fill(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.file(
-                            widget.selectedImages[index],
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      // Remove button
-                      Positioned(
-                        top: 5,
-                        right: 5,
-                        child: GestureDetector(
-                          onTap: () => _removeImage(index),
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(Icons.close,
-                                size: 16, color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              )
-            : const Text("No images selected"),
+        if (widget.showGrid) _buildImageGridView(),
       ],
+    );
+  }
+
+  Widget _buildImageGridView() {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: widget.selectedImages.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
+      ),
+      itemBuilder: (context, index) {
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: Image.file(
+                widget.selectedImages[index],
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              top: 5,
+              right: 5,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    widget.selectedImages.removeAt(index);
+                    widget.onImagesSelected(widget.selectedImages);
+                  });
+                },
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.red, shape: BoxShape.circle),
+                  padding: const EdgeInsets.all(4),
+                  child: const Icon(Icons.close, color: Colors.white, size: 16),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:society_management_system/common/eqWidget/eqBottomNavigationBarButton.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/member_Section/add_Complaint.dart';
+import 'package:society_management_system/member_Section/display_Complaints.dart';
 
 class Complaints_Member extends StatefulWidget {
   const Complaints_Member({super.key});
@@ -13,11 +14,18 @@ class Complaints_Member extends StatefulWidget {
 }
 
 class _Complaints_MemberState extends State<Complaints_Member>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, RouteAware {
   late TabController _tabController;
-  List<Map<String, dynamic>> _allComplaints = []; // Store all complaints
+  List<Map<String, dynamic>> _allComplaints = [];
   bool isLoading = true;
   String selectedTab = "soc";
+  String addbtnText = "Add Complaint to Society";
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -27,11 +35,14 @@ class _Complaints_MemberState extends State<Complaints_Member>
     _tabController.addListener(() {
       setState(() {
         selectedTab = _tabController.index == 0 ? "soc" : "wing";
-        _fetchComplaints(); // 🔥 Fetch complaints when tab changes
+        addbtnText = selectedTab == "soc"
+            ? "Add Complaint to Society"
+            : "Add Complaint to Wing";
+        _fetchComplaints();
       });
     });
 
-    _fetchComplaints(); // Initial fetch
+    _fetchComplaints();
   }
 
   Future<void> _fetchComplaints() async {
@@ -74,24 +85,13 @@ class _Complaints_MemberState extends State<Complaints_Member>
     );
   }
 
-  List<Map<String, dynamic>> _filteredComplaints() {
-    return _allComplaints
-        .where((comp) => comp["addTo"] == selectedTab)
-        .toList();
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: AppBar(
+          automaticallyImplyLeading: true,
           centerTitle: true,
           title: const Text(
             "Complaints",
@@ -122,45 +122,66 @@ class _Complaints_MemberState extends State<Complaints_Member>
                       itemBuilder: (context, index) {
                         var comp = _allComplaints[index];
 
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: Card(
-                            margin: const EdgeInsets.all(8.0),
-                            color: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    comp["title"],
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                        return InkWell(
+                          onTap: () async {
+                            bool? isUpdatedOrDeleted = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Display_Complaint(complaintId: comp["id"]),
+                              ),
+                            );
+
+                            if (isUpdatedOrDeleted == true) {
+                              _fetchComplaints();
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Card(
+                              margin: const EdgeInsets.all(8.0),
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      comp["title"],
+                                      textAlign: TextAlign.justify,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  if (comp["detail"] != null &&
-                                      comp["detail"].toString().isNotEmpty)
+                                    SizedBox(height: 5),
+                                    if (comp["detail"] != null &&
+                                        comp["detail"].toString().isNotEmpty)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 4.0),
+                                        child: Text(
+                                          comp["detail"],
+                                          textAlign: TextAlign.justify,
+                                        ),
+                                      ),
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 4.0),
-                                      child: Text(comp["detail"]),
+                                      padding: const EdgeInsets.only(top: 6.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(comp["madeBy"].toString(),
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold)),
+                                          Text(comp["dateTime"],
+                                              style: const TextStyle(
+                                                  fontSize: 12)),
+                                        ],
+                                      ),
                                     ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 6.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(comp["madeBy"].toString(),
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                        Text(comp["dateTime"],
-                                            style:
-                                                const TextStyle(fontSize: 12)),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -179,7 +200,7 @@ class _Complaints_MemberState extends State<Complaints_Member>
           );
           _fetchComplaints();
         },
-        buttonText: "Add Complaint",
+        buttonText: addbtnText,
       ),
     );
   }

@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, unnecessary_null_comparison, prefer_if_null_operators, prefer_const_constructors, deprecated_member_use, prefer_is_empty, avoid_function_literals_in_foreach_calls
 
 import 'dart:io';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter/material.dart';
@@ -107,6 +108,18 @@ showSnakebar(context, {title, milliseconds, color}) {
 
   Future.delayed(Duration(milliseconds: milliseconds + 100))
       .then((value) => ScaffoldMessenger.of(context).hideCurrentSnackBar());
+}
+
+// toast msg display
+void eqToast(String msg) {
+  Fluttertoast.showToast(
+    msg: msg,
+    toastLength: Toast.LENGTH_LONG,
+    gravity: ToastGravity.BOTTOM,
+    backgroundColor: Colors.white.withOpacity(0.6),
+    textColor: Colors.black,
+    fontSize: 16.0,
+  );
 }
 
 // To diaplay delete pop up ..

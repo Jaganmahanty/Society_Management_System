@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+//Alert Dialog with only ok button
+
 class EqAlertDialog extends StatelessWidget {
   final String title;
   final String message;
@@ -37,7 +39,6 @@ class EqAlertDialog extends StatelessWidget {
   }
 }
 
-// Function to show the alert dialog
 void showEqAlertDialog(
   BuildContext context, {
   required String title,

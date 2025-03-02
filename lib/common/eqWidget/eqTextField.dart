@@ -114,10 +114,10 @@ class _EqTextFieldState extends State<EqTextField> {
         readOnly: widget.readOnly,
         textAlign: widget.textAlign!,
         onChanged: (value) {
-          widget.controller.value = TextEditingValue(
-            text: value.toUpperCase(),
-            selection: widget.controller.selection,
-          );
+          // widget.controller.value = TextEditingValue(
+          //   text: value.toUpperCase(),
+          //   selection: widget.controller.selection,
+          // );
           if (widget.onChanged != null) {
             widget.onChanged!(value);
           }
