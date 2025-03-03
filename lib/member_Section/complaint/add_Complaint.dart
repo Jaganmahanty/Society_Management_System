@@ -1,14 +1,14 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:society_management_system/common/eqWidget/eqAlertDialog1.dart';
+import 'package:http/http.dart' as http;
 import 'package:society_management_system/common/eqWidget/eqButton.dart';
-import 'package:society_management_system/common/eqWidget/eqImagePicker.dart';
-import 'package:society_management_system/common/eqWidget/eqLoadingDialog.dart';
+import 'package:society_management_system/common/utils/eqImgCompress.dart';
 import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:society_management_system/utils/image_compression_util.dart';
+import 'package:society_management_system/common/eqWidget/eqImagePicker.dart';
+import 'package:society_management_system/common/eqWidget/eqAlertDialog1.dart';
+import 'package:society_management_system/common/eqWidget/eqLoadingDialog.dart';
 
 class Add_Complaint extends StatefulWidget {
   final int tabIndex;
@@ -23,91 +23,6 @@ class _Add_ComplaintState extends State<Add_Complaint> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _DescriptionController = TextEditingController();
   List<File> _selectedImages = [];
-
-  Future<void> _addComplaint() async {
-    if (_titleController.text.isEmpty) {
-      showEqAlertDialog(
-        context,
-        title: "Error",
-        message: "Title is required!",
-      );
-      return;
-    }
-
-    String addTo = widget.tabIndex == 0 ? "soc" : "wing";
-    String type = "comp";
-
-    showEqLoadingDialog(context);
-
-    try {
-      var uri = Uri.parse("https://bearpridejewelry.com/insert_action.php");
-      var request = http.MultipartRequest("POST", uri);
-
-      // Add text fields
-      request.fields["title"] = _titleController.text;
-      request.fields["detail"] = _DescriptionController.text.isNotEmpty
-          ? _DescriptionController.text
-          : "";
-      request.fields["addTo"] = addTo;
-      request.fields["type"] = type;
-
-      // Compress and add images
-      for (var image in _selectedImages) {
-        File? compressedImage = await ImageCompressionUtil.compressImage(image);
-        if (compressedImage != null) {
-          request.files.add(
-            await http.MultipartFile.fromPath("images[]", compressedImage.path),
-          );
-        }
-      }
-
-      var response = await request.send();
-      var responseData = await response.stream.bytesToString();
-
-      closeEqLoadingDialog(context);
-
-      if (response.statusCode == 200) {
-        try {
-          var result = jsonDecode(responseData);
-          if (result["success"]) {
-            showEqAlertDialog(
-              context,
-              title: "Success",
-              message: "Your complaint has been added successfully!",
-              onOkPressed: () {
-                Navigator.pop(context);
-              },
-            );
-          } else {
-            showEqAlertDialog(
-              context,
-              title: "Error",
-              message: result["message"],
-            );
-          }
-        } catch (e) {
-          showEqAlertDialog(
-            context,
-            title: "Error",
-            message: "Invalid Server Response.",
-          );
-        }
-      } else {
-        showEqAlertDialog(
-          context,
-          title: "Error",
-          message: "Server error, please try again!",
-        );
-      }
-    } catch (e) {
-      closeEqLoadingDialog(context);
-      showEqAlertDialog(
-        context,
-        title: "Error",
-        message: "Network error, please try again!",
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,8 +95,7 @@ class _Add_ComplaintState extends State<Add_Complaint> {
         List<File> compressedImages = [];
 
         for (var image in images) {
-          File? compressedImage =
-              await ImageCompressionUtil.compressImage(image);
+          File? compressedImage = await imgCompress.compressImage(image);
           if (compressedImage != null) {
             compressedImages.add(compressedImage);
           }
@@ -192,5 +106,90 @@ class _Add_ComplaintState extends State<Add_Complaint> {
         });
       },
     );
+  }
+
+  Future<void> _addComplaint() async {
+    if (_titleController.text.isEmpty) {
+      showEqAlertDialog(
+        context,
+        title: "Error",
+        message: "Title is required!",
+      );
+      return;
+    }
+
+    String addTo = widget.tabIndex == 0 ? "soc" : "wing";
+    String type = "comp";
+
+    showEqLoadingDialog(context);
+
+    try {
+      var uri = Uri.parse("https://bearpridejewelry.com/insert_action.php");
+      var request = http.MultipartRequest("POST", uri);
+
+      // Add text fields
+      request.fields["title"] = _titleController.text;
+      request.fields["detail"] = _DescriptionController.text.isNotEmpty
+          ? _DescriptionController.text
+          : "";
+      request.fields["addTo"] = addTo;
+      request.fields["type"] = type;
+
+      // Compress and add images
+      for (var image in _selectedImages) {
+        File? compressedImage = await imgCompress.compressImage(image);
+        if (compressedImage != null) {
+          request.files.add(
+            await http.MultipartFile.fromPath("images[]", compressedImage.path),
+          );
+        }
+      }
+
+      var response = await request.send();
+      var responseData = await response.stream.bytesToString();
+
+      closeEqLoadingDialog(context);
+
+      if (response.statusCode == 200) {
+        try {
+          var result = jsonDecode(responseData);
+          if (result["success"]) {
+            showEqAlertDialog(
+              context,
+              title: "Success",
+              message: "Your complaint has been added successfully!",
+              onOkPressed: () {
+                Navigator.pop(context);
+              },
+            );
+          } else {
+            showEqAlertDialog(
+              context,
+              title: "Error",
+              message: result["message"],
+            );
+          }
+        } catch (e) {
+          showEqAlertDialog(
+            context,
+            title: "Error",
+            message: "Invalid Server Response.",
+          );
+        }
+      } else {
+        showEqAlertDialog(
+          context,
+          title: "Error",
+          message: "Server error, please try again!",
+        );
+      }
+    } catch (e) {
+      closeEqLoadingDialog(context);
+      showEqAlertDialog(
+        context,
+        title: "Error",
+        message: "Network error, please try again!",
+      );
+    }
   }
 }

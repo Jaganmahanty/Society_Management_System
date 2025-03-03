@@ -1,10 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:society_management_system/common/eqWidget/eqAlertDialog2.dart';
 import 'package:society_management_system/common/function.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
-import 'package:society_management_system/member_Section/update_complaint.dart';
+import 'package:society_management_system/common/eqWidget/eqAlertDialog2.dart';
+import 'package:society_management_system/member_Section/complaint/update_complaint.dart';
 
 class Display_Complaint extends StatefulWidget {
   final String complaintId;
@@ -23,6 +23,157 @@ class _Display_ComplaintState extends State<Display_Complaint> {
   void initState() {
     super.initState();
     _fetchComplaintDetails();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          complaint == null
+              ? "Complaint Details"
+              : "Complaint By : ${complaint!["madeBy"]}",
+          style: const TextStyle(color: appbarTextColor),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context, true); // Return true when going back
+          },
+        ),
+      ),
+      bottomNavigationBar: isBottomBarVisible
+          ? BottomAppBar(
+              color: Colors.grey[50],
+              shape: const CircularNotchedRectangle(),
+              child: SizedBox(
+                height: 10, // Set height here
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Update_Complaint(complaintId: complaint!["id"]),
+                          ),
+                        ).then((value) {
+                          if (value == true) {
+                            _fetchComplaintDetails(); // Refresh complaint details after update
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.edit),
+                      label: const Text("Update",
+                          style: TextStyle(fontWeight: FontWeight.w600)),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.white),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: _confirmDelete,
+                      icon: const Icon(Icons.delete),
+                      label: const Text(
+                        "Delete",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : null,
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : complaint == null
+              ? const Center(child: Text("Complaint not found"))
+              : SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                complaint!["title"],
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Divider(
+                                height: 20,
+                              ),
+                              Text(
+                                complaint!["detail"],
+                                textAlign: TextAlign.justify,
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        if (complaint!["img"] != null &&
+                            complaint!["img"] is List &&
+                            (complaint!["img"] as List).isNotEmpty)
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
+                            itemCount: (complaint!["img"] as List).length,
+                            itemBuilder: (context, index) {
+                              String imgUrl =
+                                  (complaint!["img"] as List)[index];
+                              return GestureDetector(
+                                onTap: () => _showFullScreenImage(imgUrl),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    imgUrl,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(Icons.broken_image,
+                                                size: 50),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        const SizedBox(height: 12),
+                        Text(
+                          "Date & Time: ${complaint!["dateTime"]}",
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+    );
   }
 
   Future<void> _fetchComplaintDetails() async {
@@ -123,157 +274,6 @@ class _Display_ComplaintState extends State<Display_Complaint> {
     } catch (e) {
       eqToast("Error: $e");
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          complaint == null
-              ? "Complaint Details"
-              : "Complaint By : ${complaint!["madeBy"]}",
-          style: const TextStyle(color: appbarTextColor),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context, true); // Return true when going back
-          },
-        ),
-      ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : complaint == null
-              ? const Center(child: Text("Complaint not found"))
-              : SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                complaint!["title"],
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Divider(
-                                height: 20,
-                              ),
-                              Text(
-                                complaint!["detail"],
-                                textAlign: TextAlign.justify,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        if (complaint!["img"] != null &&
-                            complaint!["img"] is List &&
-                            (complaint!["img"] as List).isNotEmpty)
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                            ),
-                            itemCount: (complaint!["img"] as List).length,
-                            itemBuilder: (context, index) {
-                              String imgUrl =
-                                  (complaint!["img"] as List)[index];
-                              return GestureDetector(
-                                onTap: () => _showFullScreenImage(imgUrl),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    imgUrl,
-                                    fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            const Icon(Icons.broken_image,
-                                                size: 50),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        const SizedBox(height: 12),
-                        Text(
-                          "Date & Time: ${complaint!["dateTime"]}",
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-      bottomNavigationBar: isBottomBarVisible
-          ? BottomAppBar(
-              color: Colors.grey[50],
-              shape: const CircularNotchedRectangle(),
-              child: SizedBox(
-                height: 10, // Set height here
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                Update_Complaint(complaintId: complaint!["id"]),
-                          ),
-                        ).then((value) {
-                          if (value == true) {
-                            _fetchComplaintDetails(); // Refresh complaint details after update
-                          }
-                        });
-                      },
-                      icon: const Icon(Icons.edit),
-                      label: const Text("Update",
-                          style: TextStyle(fontWeight: FontWeight.w600)),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          foregroundColor: Colors.white),
-                    ),
-                    ElevatedButton.icon(
-                      onPressed: _confirmDelete,
-                      icon: const Icon(Icons.delete),
-                      label: const Text(
-                        "Delete",
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          foregroundColor: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : null,
-    );
   }
 }
 

@@ -1,10 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:society_management_system/common/eqWidget/eqBottomNavigationBarButton.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
-import 'package:society_management_system/member_Section/add_Complaint.dart';
-import 'package:society_management_system/member_Section/display_Complaints.dart';
+import 'package:society_management_system/member_Section/complaint/add_Complaint.dart';
+import 'package:society_management_system/member_Section/complaint/display_Complaints.dart';
+import 'package:society_management_system/common/eqWidget/eqBottomNavigationBarButton.dart';
 
 class Complaints_Member extends StatefulWidget {
   const Complaints_Member({super.key});
@@ -45,46 +45,6 @@ class _Complaints_MemberState extends State<Complaints_Member>
     _fetchComplaints();
   }
 
-  Future<void> _fetchComplaints() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    try {
-      var url =
-          "https://bearpridejewelry.com/fetch_action.php?addTo=$selectedTab";
-      var response = await http.get(Uri.parse(url));
-
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        if (jsonResponse is Map<String, dynamic> &&
-            jsonResponse.containsKey("data")) {
-          setState(() {
-            _allComplaints =
-                List<Map<String, dynamic>>.from(jsonResponse["data"]);
-            isLoading = false;
-          });
-        } else {
-          _showError("Invalid response format.");
-        }
-      } else {
-        _showError("Failed to load complaints. Try again later.");
-      }
-    } catch (e) {
-      _showError("An error occurred: $e");
-    }
-  }
-
-  void _showError(String message) {
-    setState(() {
-      isLoading = false;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.red),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,6 +70,19 @@ class _Complaints_MemberState extends State<Complaints_Member>
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: EqBottomButton(
+        onPress: () async {
+          int selectedIndex = _tabController.index;
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Add_Complaint(tabIndex: selectedIndex),
+            ),
+          );
+          _fetchComplaints();
+        },
+        buttonText: addbtnText,
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -189,19 +162,46 @@ class _Complaints_MemberState extends State<Complaints_Member>
                       },
                     ),
             ),
-      bottomNavigationBar: EqBottomButton(
-        onPress: () async {
-          int selectedIndex = _tabController.index;
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Add_Complaint(tabIndex: selectedIndex),
-            ),
-          );
-          _fetchComplaints();
-        },
-        buttonText: addbtnText,
-      ),
+    );
+  }
+
+  Future<void> _fetchComplaints() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      var url =
+          "https://bearpridejewelry.com/fetch_action.php?addTo=$selectedTab";
+      var response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        if (jsonResponse is Map<String, dynamic> &&
+            jsonResponse.containsKey("data")) {
+          setState(() {
+            _allComplaints =
+                List<Map<String, dynamic>>.from(jsonResponse["data"]);
+            isLoading = false;
+          });
+        } else {
+          _showError("Invalid response format.");
+        }
+      } else {
+        _showError("Failed to load complaints. Try again later.");
+      }
+    } catch (e) {
+      _showError("An error occurred: $e");
+    }
+  }
+
+  void _showError(String message) {
+    setState(() {
+      isLoading = false;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
     );
   }
 }

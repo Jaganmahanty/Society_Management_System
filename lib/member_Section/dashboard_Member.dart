@@ -4,7 +4,7 @@ import 'package:society_management_system/member_Section/profile.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/common/eqWidget/quickAccessMenu.dart';
-import 'package:society_management_system/member_Section/complaints_Member.dart';
+import 'package:society_management_system/member_Section/complaint/complaints_Member.dart';
 
 class Dashboard_Member extends StatefulWidget {
   const Dashboard_Member({super.key});

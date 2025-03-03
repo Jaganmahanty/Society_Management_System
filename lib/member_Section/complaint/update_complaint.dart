@@ -1,13 +1,13 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:society_management_system/common/eqWidget/eqBottomNavigationBarButton.dart';
-import 'package:society_management_system/common/eqWidget/eqImagePicker.dart';
-import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/function.dart';
+import 'package:society_management_system/common/utils/eqImgCompress.dart';
+import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
-import 'package:society_management_system/utils/image_compression_util.dart';
-import 'dart:convert';
+import 'package:society_management_system/common/eqWidget/eqImagePicker.dart';
+import 'package:society_management_system/common/eqWidget/eqBottomNavigationBarButton.dart';
 
 class Update_Complaint extends StatefulWidget {
   final String complaintId;
@@ -29,115 +29,6 @@ class _Update_ComplaintState extends State<Update_Complaint> {
   void initState() {
     super.initState();
     _fetchComplaintDetails();
-  }
-
-  Future<void> _fetchComplaintDetails() async {
-    try {
-      var url =
-          "https://bearpridejewelry.com/fetch_action.php?id=${widget.complaintId}";
-      var response = await http.get(Uri.parse(url));
-
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        if (jsonResponse["success"] == true &&
-            jsonResponse["data"] is List &&
-            jsonResponse["data"].isNotEmpty) {
-          var complaint = jsonResponse["data"][0];
-
-          if (mounted) {
-            setState(() {
-              _titleController.text = complaint["title"];
-              _descriptionController.text = complaint["detail"] ?? "";
-              existingImageUrls = complaint["img"] != null
-                  ? List<String>.from(complaint["img"])
-                  : [];
-              isLoading = false;
-            });
-          }
-        } else {
-          if (mounted) {
-            setState(() {
-              isLoading = false;
-            });
-          }
-          eqToast("Failed to fetch complaint details");
-        }
-      } else {
-        if (mounted) {
-          setState(() {
-            isLoading = false;
-          });
-        }
-        eqToast("Error: ${response.statusCode}");
-      }
-    } catch (e) {
-      debugPrint("Error fetching details: $e");
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
-      eqToast("Network error, please try again.");
-    }
-  }
-
-  void _removeImage(dynamic image) {
-    setState(() {
-      if (image is String) {
-        existingImageUrls.remove(image);
-      } else if (image is File) {
-        selectedImages.removeWhere((file) => file.path == image.path);
-      }
-    });
-  }
-
-  Future<void> _updateComplaint() async {
-    if (_titleController.text.isEmpty) {
-      eqToast("Title is required");
-      return;
-    }
-
-    List<File> compressedImages = [];
-    for (File image in selectedImages) {
-      File? compressedImage = await ImageCompressionUtil.compressImage(image);
-      if (compressedImage != null) {
-        compressedImages.add(compressedImage);
-      }
-    }
-
-    var uri = Uri.parse("https://bearpridejewelry.com/update_action.php");
-    var request = http.MultipartRequest("POST", uri);
-
-    request.fields["id"] = widget.complaintId;
-    request.fields["title"] = _titleController.text;
-    request.fields["detail"] = _descriptionController.text;
-
-    request.fields["existing_images"] = jsonEncode(existingImageUrls);
-
-    for (File image in compressedImages) {
-      request.files
-          .add(await http.MultipartFile.fromPath("images[]", image.path));
-    }
-
-    var response = await request.send();
-    var responseData = await response.stream.bytesToString();
-    var jsonResponse = jsonDecode(responseData);
-
-    debugPrint("Update Response: $jsonResponse");
-
-    if (jsonResponse["status"] == "success") {
-      eqToast("Complaint updated successfully");
-
-      if (jsonResponse.containsKey("images")) {
-        setState(() {
-          existingImageUrls = List<String>.from(jsonResponse["images"]);
-        });
-      }
-
-      Navigator.pop(context, true);
-    } else {
-      eqToast("Update failed: ${jsonResponse["message"]}");
-    }
   }
 
   @override
@@ -212,6 +103,115 @@ class _Update_ComplaintState extends State<Update_Complaint> {
         ),
       ),
     );
+  }
+
+  Future<void> _fetchComplaintDetails() async {
+    try {
+      var url =
+          "https://bearpridejewelry.com/fetch_action.php?id=${widget.complaintId}";
+      var response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        if (jsonResponse["success"] == true &&
+            jsonResponse["data"] is List &&
+            jsonResponse["data"].isNotEmpty) {
+          var complaint = jsonResponse["data"][0];
+
+          if (mounted) {
+            setState(() {
+              _titleController.text = complaint["title"];
+              _descriptionController.text = complaint["detail"] ?? "";
+              existingImageUrls = complaint["img"] != null
+                  ? List<String>.from(complaint["img"])
+                  : [];
+              isLoading = false;
+            });
+          }
+        } else {
+          if (mounted) {
+            setState(() {
+              isLoading = false;
+            });
+          }
+          eqToast("Failed to fetch complaint details");
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+        eqToast("Error: ${response.statusCode}");
+      }
+    } catch (e) {
+      debugPrint("Error fetching details: $e");
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+      eqToast("Network error, please try again.");
+    }
+  }
+
+  void _removeImage(dynamic image) {
+    setState(() {
+      if (image is String) {
+        existingImageUrls.remove(image);
+      } else if (image is File) {
+        selectedImages.removeWhere((file) => file.path == image.path);
+      }
+    });
+  }
+
+  Future<void> _updateComplaint() async {
+    if (_titleController.text.isEmpty) {
+      eqToast("Title is required");
+      return;
+    }
+
+    List<File> compressedImages = [];
+    for (File image in selectedImages) {
+      File? compressedImage = await imgCompress.compressImage(image);
+      if (compressedImage != null) {
+        compressedImages.add(compressedImage);
+      }
+    }
+
+    var uri = Uri.parse("https://bearpridejewelry.com/update_action.php");
+    var request = http.MultipartRequest("POST", uri);
+
+    request.fields["id"] = widget.complaintId;
+    request.fields["title"] = _titleController.text;
+    request.fields["detail"] = _descriptionController.text;
+
+    request.fields["existing_images"] = jsonEncode(existingImageUrls);
+
+    for (File image in compressedImages) {
+      request.files
+          .add(await http.MultipartFile.fromPath("images[]", image.path));
+    }
+
+    var response = await request.send();
+    var responseData = await response.stream.bytesToString();
+    var jsonResponse = jsonDecode(responseData);
+
+    debugPrint("Update Response: $jsonResponse");
+
+    if (jsonResponse["status"] == "success") {
+      eqToast("Complaint updated successfully");
+
+      if (jsonResponse.containsKey("images")) {
+        setState(() {
+          existingImageUrls = List<String>.from(jsonResponse["images"]);
+        });
+      }
+
+      Navigator.pop(context, true);
+    } else {
+      eqToast("Update failed: ${jsonResponse["message"]}");
+    }
   }
 
   Widget buildImageGridView() {
