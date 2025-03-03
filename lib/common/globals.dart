@@ -13,4 +13,5 @@ class Globals {
   static String fName = '';
   static String lName = '';
   static String mobile = '';
+  static String accesscode = '';
 }

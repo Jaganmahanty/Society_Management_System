@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:society_management_system/member_Section/profile.dart';
 import 'package:society_management_system/home_screen.dart';
 import 'package:society_management_system/common/globals.dart';
 import 'package:society_management_system/common/function.dart';
+import 'package:society_management_system/member_Section/profile.dart';
+import 'package:society_management_system/s_admin_section/w_admin_list.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/common/eqWidget/quickAccessMenu.dart';
@@ -147,7 +148,8 @@ class _dashboard_Society_AdminState extends State<dashboard_Society_Admin> {
           'icon': Icons.person_outline,
           'title': "Wing Admin",
           'onPressed': () {
-            print("Update MaintenenceHome Icon Pressed");
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Wing_Admin_List()));
           },
         },
       ],
@@ -380,7 +382,7 @@ class _dashboard_Society_AdminState extends State<dashboard_Society_Admin> {
   }
 
   Future<void> getData() async {
-    accessCode = await getSettings("accessCode");
+    Globals.accesscode = accessCode = await getSettings("accessCode");
     print('accessCode: $accessCode');
     setState(() {});
   }
