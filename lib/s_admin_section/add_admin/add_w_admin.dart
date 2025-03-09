@@ -108,7 +108,8 @@ class _add_Wing_AdminState extends State<add_Wing_Admin> {
       'lname': strLName,
       'mobile': strMobile,
       'pin': "2424",
-      'wing': strWing
+      'wing': strWing,
+      's_mobile': Globals.mobile
     };
 
     var body = json.encode(data);

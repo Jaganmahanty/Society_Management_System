@@ -4,11 +4,11 @@ import 'package:society_management_system/home_screen.dart';
 import 'package:society_management_system/common/globals.dart';
 import 'package:society_management_system/common/function.dart';
 import 'package:society_management_system/member_Section/profile.dart';
-import 'package:society_management_system/s_admin_section/w_admin_list.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/common/eqWidget/quickAccessMenu.dart';
 import 'package:society_management_system/w_admin_Section/dashboard_Wing_Admin.dart';
+import 'package:society_management_system/s_admin_section/add_admin/w_admin_list.dart';
 
 class dashboard_Society_Admin extends StatefulWidget {
   final int? accessCode;

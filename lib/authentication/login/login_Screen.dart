@@ -9,6 +9,7 @@ import 'package:society_management_system/common/eqWidget/eqTextField.dart';
 import 'package:society_management_system/common/global_section/colors.dart';
 import 'package:society_management_system/common/global_section/strings.dart';
 import 'package:society_management_system/authentication/registration/registration_Screen.dart';
+import 'package:society_management_system/authentication/registration/reset_Password_Screen.dart';
 import 'package:society_management_system/authentication/registration/forgot_Password_Screen.dart';
 
 class Login_Page extends StatefulWidget {
@@ -178,10 +179,22 @@ class _Login_PageState extends State<Login_Page> {
       setSettings("user_pin", strPin);
       setSettings("user_fname", jsonData['user']['fname']);
       setSettings("user_lname", jsonData['user']['lname']);
-      showSnakebar(context,
-          color: Colors.green, title: jsonData['message'], milliseconds: 2500);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Home_Sceeen()));
+      // Default pwd change it ..
+      if (strPin == "2424") {
+        showSnakebar(context,
+            color: Colors.green,
+            title: "Change your password !!!",
+            milliseconds: 2500);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Reset_Password()));
+      } else {
+        showSnakebar(context,
+            color: Colors.green,
+            title: jsonData['message'],
+            milliseconds: 2500);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home_Sceeen()));
+      }
     } else if (jsonData['success'] == false) {
       showSnakebar(context,
           color: Colors.red, title: jsonData['message'], milliseconds: 2500);
